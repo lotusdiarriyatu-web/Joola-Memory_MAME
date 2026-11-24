@@ -1,0 +1,2239 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لو جولا | ذاكرة لا تغرق</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0B2436;
+    --navy-deep: #081A28;
+    --sea: #2E6E82;
+    --sea-light: #4E8EA2;
+    --sand: #DCC9A3;
+    --off-white: #F3EEE2;
+    --charcoal: #262420;
+    --accent: #A83828;
+    --line: rgba(38,36,32,0.14);
+    --line-light: rgba(243,238,226,0.22);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    background: var(--off-white);
+    color: var(--charcoal);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  img, svg { display: block; max-width: 100%; }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* ---------- NAV ---------- */
+  .nav {
+    position: fixed;
+    top: 0; right: 0; left: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px clamp(20px, 5vw, 56px);
+    transition: background-color .5s ease, padding .4s ease, box-shadow .4s ease;
+  }
+  .nav.scrolled {
+    background: rgba(11,36,54,0.94);
+    backdrop-filter: blur(6px);
+    padding: 14px clamp(20px, 5vw, 56px);
+    box-shadow: 0 1px 0 var(--line-light);
+  }
+  .nav-brand {
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--off-white);
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+  .nav-brand span { color: var(--sand); font-weight: 400; }
+
+  .nav-links {
+    display: flex;
+    gap: clamp(14px, 2.4vw, 34px);
+    font-size: 14.5px;
+  }
+  .nav-links a {
+    color: var(--off-white);
+    opacity: 0.78;
+    position: relative;
+    padding-bottom: 4px;
+    transition: opacity .25s ease;
+  }
+  .nav-links a:hover { opacity: 1; }
+  .nav-links a::after {
+    content: "";
+    position: absolute;
+    right: 0; left: 0; bottom: 0;
+    height: 1px;
+    background: var(--sand);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform .3s ease;
+  }
+  .nav-links a:hover::after { transform: scaleX(1); }
+
+  .nav-lang {
+    display: flex;
+    gap: 8px;
+    font-size: 12.5px;
+    color: var(--off-white);
+    opacity: 0.55;
+  }
+  .nav-lang span:first-child { opacity: 1; }
+  .nav-lang b { font-weight: 400; opacity: 0.3; }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+  }
+  .nav-toggle i { width: 22px; height: 1.5px; background: var(--off-white); display: block; }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 640px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, var(--navy-deep) 0%, var(--navy) 55%, var(--sea) 150%);
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .hero-waves { position: absolute; inset: 0; opacity: 0.55; }
+  .hero-waves svg { position: absolute; bottom: 0; width: 200%; height: auto; }
+  .wave-1 { animation: driftLeft 34s linear infinite; opacity: 0.5; }
+  .wave-2 { animation: driftRight 46s linear infinite; opacity: 0.35; bottom: -10px !important; }
+  .wave-3 { animation: driftLeft 60s linear infinite; opacity: 0.22; bottom: -22px !important; }
+
+  @keyframes driftLeft { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes driftRight { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 24px;
+    animation: heroIn 1.6s ease both;
+  }
+  @keyframes heroIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+  .hero-date {
+    color: var(--sand);
+    font-size: 15px;
+    letter-spacing: 1.5px;
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+
+  .hero-title {
+    color: var(--off-white);
+    font-weight: 700;
+    font-size: clamp(48px, 9vw, 108px);
+    line-height: 1.05;
+  }
+  .hero-subtitle {
+    color: var(--sea-light);
+    font-weight: 600;
+    font-size: clamp(22px, 3.4vw, 38px);
+    margin-top: 6px;
+    margin-bottom: 30px;
+  }
+
+  .hero-line {
+    color: var(--off-white);
+    opacity: 0.82;
+    font-size: clamp(16px, 2vw, 20px);
+    max-width: 520px;
+    margin-bottom: 46px;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: transform .25s ease, background-color .25s ease, border-color .25s ease;
+  }
+  .btn-primary {
+    background: var(--sand);
+    color: var(--navy-deep);
+    border: 1px solid var(--sand);
+  }
+  .btn-primary:hover { background: var(--off-white); transform: translateY(-1px); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--off-white);
+    border: 1px solid var(--line-light);
+  }
+  .btn-ghost:hover { border-color: var(--off-white); transform: translateY(-1px); }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 30px; left: 50%;
+    transform: translateX(-50%);
+    color: var(--off-white);
+    opacity: 0.5;
+    font-size: 12px;
+    z-index: 2;
+    animation: bob 2.4s ease-in-out infinite;
+  }
+  @keyframes bob { 0%,100% { transform: translate(-50%,0); } 50% { transform: translate(-50%,6px); } }
+
+  /* ---------- SECTION SHELL ---------- */
+  section { position: relative; }
+  .section-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: clamp(70px, 10vw, 130px) 24px;
+  }
+
+  /* ---------- NUMBERS ---------- */
+  .numbers { background: var(--off-white); text-align: center; }
+  .numbers-lead {
+    font-size: clamp(20px, 2.6vw, 28px);
+    font-weight: 600;
+    max-width: 620px;
+    margin: 0 auto 60px;
+    color: var(--navy-deep);
+  }
+  .stat-row {
+    display: flex;
+    justify-content: center;
+    gap: clamp(30px, 6vw, 90px);
+    flex-wrap: wrap;
+  }
+  .stat {
+    min-width: 140px;
+  }
+  .stat-num {
+    font-size: clamp(40px, 6vw, 64px);
+    font-weight: 700;
+    color: var(--sea);
+    line-height: 1;
+  }
+  .stat-label {
+    margin-top: 10px;
+    font-size: 15px;
+    color: var(--charcoal);
+    opacity: 0.72;
+  }
+  .numbers-note {
+    margin-top: 54px;
+    font-size: 13px;
+    color: var(--accent);
+    opacity: 0.85;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-top: 1px solid var(--line);
+    padding-top: 18px;
+  }
+
+  /* ---------- PIVOTAL SENTENCE ---------- */
+  .pivotal {
+    background: var(--sand);
+    text-align: center;
+  }
+  .pivotal-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: clamp(90px, 14vw, 160px) 24px;
+  }
+  .pivotal p {
+    font-size: clamp(24px, 3.6vw, 38px);
+    font-weight: 600;
+    color: var(--navy-deep);
+    line-height: 1.6;
+  }
+
+  /* ---------- JOURNEY ---------- */
+  .journey { background: var(--navy-deep); color: var(--off-white); }
+  .journey .section-inner { max-width: 780px; }
+  .journey-head {
+    text-align: center;
+    margin-bottom: 90px;
+  }
+  .journey-head h2 {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+  }
+  .journey-head p {
+    margin-top: 14px;
+    color: var(--sand);
+    font-size: 15px;
+    opacity: 0.85;
+  }
+
+  .journey-path { position: relative; }
+  .journey-path::before {
+    content: "";
+    position: absolute;
+    top: 8px; bottom: 8px;
+    right: 27px;
+    width: 1px;
+    background: var(--line-light);
+  }
+
+  .journey-item {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 26px;
+    padding: 28px 0;
+    cursor: pointer;
+  }
+  .journey-num {
+    position: relative;
+    flex-shrink: 0;
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--navy);
+    border: 1px solid var(--line-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    z-index: 2;
+    transition: border-color .3s ease, background-color .3s ease;
+  }
+  .journey-item:hover .journey-num {
+    border-color: var(--sea-light);
+    background: var(--sea);
+  }
+  .journey-body { padding-top: 6px; }
+  .journey-index {
+    font-size: 12.5px;
+    color: var(--sea-light);
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .journey-title {
+    font-size: clamp(20px, 2.6vw, 26px);
+    font-weight: 700;
+  }
+  .journey-sub {
+    margin-top: 6px;
+    font-size: 14.5px;
+    color: var(--off-white);
+    opacity: 0.62;
+  }
+  .journey-arrow {
+    margin-right: auto;
+    align-self: center;
+    opacity: 0.35;
+    transition: transform .3s ease, opacity .3s ease;
+    font-size: 18px;
+  }
+  .journey-item:hover .journey-arrow { transform: translateX(-4px); opacity: 0.9; }
+
+  .water-divider { height: 90px; overflow: hidden; position: relative; }
+  .water-divider svg { width: 100%; height: 100%; }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    background: var(--navy);
+    color: var(--off-white);
+    text-align: center;
+    padding: 70px 24px 46px;
+  }
+  footer .foot-line {
+    font-size: clamp(18px, 2.2vw, 24px);
+    font-weight: 600;
+    max-width: 560px;
+    margin: 0 auto 24px;
+    color: var(--sand);
+    line-height: 1.6;
+  }
+  footer .foot-brand {
+    font-size: 14px;
+    opacity: 0.55;
+    margin-top: 30px;
+  }
+
+  @media (max-width: 760px) {
+    .nav-links { display: none; }
+    .nav.nav-open .nav-links {
+      display: flex;
+      position: absolute;
+      top: 100%; right: 0; left: 0;
+      flex-direction: column;
+      gap: 0;
+      padding: 10px 24px 18px;
+      background: rgba(11,36,54,.98);
+      box-shadow: 0 12px 22px rgba(0,0,0,.18);
+    }
+    .nav.nav-open .nav-links a { padding: 11px 0; }
+    .nav-toggle { display: flex; }
+    .nav-lang { display: none; }
+    .journey-path::before { right: 23px; }
+    .journey-num { width: 46px; height: 46px; font-size: 17px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  }
+
+  /* ---------- PAGE VIEWS ---------- */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ---------- FILM PAGE ---------- */
+  .cover {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: radial-gradient(ellipse at 50% 20%, #16394F 0%, var(--navy-deep) 65%);
+    padding: 140px 24px 80px;
+    color: var(--off-white);
+  }
+  .portrait-frame {
+    width: min(280px, 60vw);
+    aspect-ratio: 3/4;
+    border: 1px solid var(--line-light);
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: var(--sand);
+    opacity: 0.8;
+    margin-bottom: 44px;
+    background: linear-gradient(160deg, rgba(78,142,162,0.12), rgba(11,36,54,0.4));
+    font-size: 13px;
+  }
+  .portrait-frame .icon { font-size: 34px; opacity: 0.7; }
+  .cover-eyebrow { font-size: 13px; color: var(--sea-light); margin-bottom: 14px; letter-spacing: .5px; }
+  .cover h1 { font-size: clamp(38px, 6.5vw, 64px); font-weight: 700; }
+  .cover .cover-sub { color: var(--sand); font-size: clamp(16px, 2vw, 20px); margin-top: 10px; font-weight: 500; }
+  .cover .runtime { margin-top: 30px; font-size: 14px; opacity: 0.6; }
+
+  .play-block {
+    margin-top: 34px;
+    position: relative;
+    width: min(720px, 92vw);
+    aspect-ratio: 16/9;
+    border-radius: 2px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0F2E42, #1B4B5F);
+    border: 1px solid var(--line-light);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .play-block .play-icon {
+    width: 68px; height: 68px;
+    border-radius: 50%;
+    border: 1px solid var(--off-white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    transition: transform .25s ease, background-color .25s ease;
+  }
+  .play-block:hover .play-icon { transform: scale(1.08); background: rgba(255,255,255,0.1); }
+  .play-block .play-caption {
+    position: absolute;
+    bottom: 16px; right: 20px; left: 20px;
+    text-align: right;
+    font-size: 13px;
+    color: var(--off-white);
+    opacity: 0.65;
+  }
+  .play-block.playing { background: var(--navy-deep); }
+  .play-block.playing .play-msg { font-size: 14px; color: var(--sand); opacity: 0.85; max-width: 320px; text-align: center; padding: 0 20px; }
+
+  .about-film { background: var(--off-white); text-align: center; }
+  .about-film h3 { font-size: 14px; color: var(--sea); letter-spacing: .5px; margin-bottom: 18px; }
+  .about-film p { font-size: clamp(20px, 2.6vw, 27px); font-weight: 600; max-width: 640px; margin: 0 auto; color: var(--navy-deep); line-height: 1.6; }
+
+  .tabs-section { background: var(--off-white); }
+  .tab-bar {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 50px;
+    border-bottom: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    background: none; border: none; cursor: pointer;
+    font-family: inherit;
+    font-size: 15.5px;
+    padding: 14px 22px;
+    color: var(--charcoal);
+    opacity: 0.55;
+    position: relative;
+    transition: opacity .25s ease;
+  }
+  .tab-btn::after {
+    content: ""; position: absolute; right: 22px; left: 22px; bottom: -1px; height: 2px;
+    background: var(--sea); transform: scaleX(0); transition: transform .3s ease;
+  }
+  .tab-btn.active { opacity: 1; font-weight: 600; }
+  .tab-btn.active::after { transform: scaleX(1); }
+
+  .tab-panel { display: none; max-width: 700px; margin: 0 auto; text-align: center; }
+  .tab-panel.active { display: block; animation: fadeUp .5s ease both; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .tab-panel p { font-size: 16.5px; opacity: 0.82; margin-bottom: 26px; }
+
+  .still-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 30px;
+  }
+  .still {
+    aspect-ratio: 4/3;
+    background: linear-gradient(150deg, #E4D8BC, #DCC9A3);
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--navy-deep);
+    opacity: 0.55;
+    font-size: 12.5px;
+  }
+  @media (max-width: 600px) { .still-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .page-transition {
+    background: var(--navy-deep);
+    color: var(--off-white);
+    text-align: center;
+  }
+  .page-transition .pt-lead { font-size: 15px; color: var(--sea-light); margin-bottom: 18px; }
+  .page-transition .pt-next { font-size: clamp(22px, 3vw, 30px); font-weight: 700; margin-bottom: 40px; }
+  .page-transition .btn-primary { }
+
+  .stub-page {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; background: var(--navy-deep); color: var(--off-white);
+    padding: 120px 24px 60px;
+  }
+  .stub-page .stub-icon { font-size: 40px; margin-bottom: 22px; opacity: .8; }
+  .stub-page h1 { font-size: clamp(30px, 4.5vw, 44px); font-weight: 700; margin-bottom: 12px; }
+  .stub-page p { color: var(--sand); opacity: 0.75; margin-bottom: 36px; max-width: 440px; }
+
+  /* ---------- LAYLAT LEJOOLA (scrollytelling) ---------- */
+  .ll-scene {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 90px 24px;
+    position: relative;
+  }
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity .9s ease, transform .9s ease; }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+  .ll-cover { background: radial-gradient(ellipse at 50% 30%, #123246 0%, var(--navy-deep) 70%); color: var(--off-white); }
+  .ll-cover .ll-ship-icon { font-size: 54px; margin-bottom: 26px; opacity: .9; }
+  .ll-cover h1 { font-size: clamp(38px, 6.5vw, 64px); font-weight: 700; }
+  .ll-cover .ll-q { color: var(--sea-light); font-size: clamp(18px, 2.4vw, 24px); margin-top: 10px; font-weight: 600; }
+  .ll-cover .btn { margin-top: 46px; }
+
+  .ll-ship-section { background: var(--off-white); }
+  .ll-ship-section h2, .ll-route h2, .ll-risks h2 { font-size: clamp(24px, 3.2vw, 32px); font-weight: 700; margin-bottom: 44px; color: var(--navy-deep); }
+
+  .ship-diagram { position: relative; width: min(640px, 92vw); margin: 0 auto; }
+  .ship-diagram svg { width: 100%; height: auto; }
+  .hotspot {
+    position: absolute;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--sea);
+    border: 3px solid var(--off-white);
+    box-shadow: 0 0 0 2px var(--sea);
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    animation: pulseDot 2.6s ease-in-out infinite;
+  }
+  .hotspot.active { background: var(--accent); box-shadow: 0 0 0 2px var(--accent); animation: none; }
+  @keyframes pulseDot { 0%,100% { box-shadow: 0 0 0 2px var(--sea); } 50% { box-shadow: 0 0 0 8px rgba(46,110,130,0.15); } }
+
+  .ship-detail {
+    margin-top: 40px;
+    min-height: 90px;
+    max-width: 440px;
+    margin-inline: auto;
+    padding: 22px 26px;
+    background: var(--sand);
+    border-radius: 2px;
+    display: none;
+  }
+  .ship-detail.active { display: block; animation: fadeUp .4s ease both; }
+  .ship-detail .sd-label { font-size: 13px; color: var(--navy-deep); opacity: .65; margin-bottom: 6px; }
+  .ship-detail .sd-value { font-size: 28px; font-weight: 700; color: var(--navy-deep); }
+  .ship-detail .sd-note { font-size: 13px; color: var(--accent); margin-top: 10px; }
+  .ship-hint { font-size: 13.5px; opacity: .55; margin-top: 26px; }
+
+  .ll-route { background: var(--navy-deep); color: var(--off-white); }
+  .route-map { width: min(560px, 92vw); margin: 0 auto; }
+  .route-points { display: flex; align-items: center; justify-content: space-between; margin-bottom: 26px; }
+  .route-point { font-size: 15px; font-weight: 600; color: var(--sand); }
+  .route-svg { width: 100%; height: 70px; }
+  .route-line {
+    stroke: var(--sea-light);
+    stroke-width: 2;
+    fill: none;
+    stroke-dasharray: 480;
+    stroke-dashoffset: 480;
+    transition: stroke-dashoffset 2.4s ease;
+  }
+  .route-map.in-view .route-line { stroke-dashoffset: 0; }
+  .route-wave { font-size: 26px; opacity: 0; transition: opacity .6s ease 2s; }
+  .route-map.in-view .route-wave { opacity: 1; }
+
+  .ll-risks { background: var(--off-white); }
+  .risk-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    width: min(760px, 94vw);
+    margin: 0 auto;
+  }
+  .risk-card {
+    background: var(--navy-deep);
+    color: var(--off-white);
+    border-radius: 2px;
+    padding: 26px 16px;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .6s ease, transform .6s ease, background-color .25s ease;
+  }
+  .risk-card.in-view { opacity: 1; transform: translateY(0); }
+  .risk-card:hover, .risk-card.open { background: var(--sea); }
+  .risk-card .rc-icon { font-size: 22px; margin-bottom: 10px; }
+  .risk-card .rc-title { font-size: 15px; font-weight: 600; }
+  .risk-detail {
+    grid-column: 1 / -1;
+    display: none;
+    text-align: right;
+    background: var(--sand);
+    border-radius: 2px;
+    padding: 24px 28px;
+    margin-top: 4px;
+  }
+  .risk-detail.active { display: block; animation: fadeUp .4s ease both; }
+  .risk-detail .rd-q { font-size: 13px; color: var(--navy-deep); opacity: .6; margin-bottom: 4px; }
+  .risk-detail .rd-a { font-size: 15.5px; color: var(--navy-deep); margin-bottom: 16px; }
+  @media (max-width: 620px) { .risk-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .ll-storm {
+    background: linear-gradient(180deg, #081A28, #163B4F);
+    color: var(--off-white);
+    overflow: hidden;
+  }
+  .ll-storm .storm-waves { position: absolute; inset: 0; opacity: .5; }
+  .ll-storm .storm-waves svg { position: absolute; bottom: 0; width: 220%; height: auto; }
+  .ll-storm .sw1 { animation: driftLeft 9s linear infinite; }
+  .ll-storm .sw2 { animation: driftRight 13s linear infinite; opacity: .6; }
+  .ll-storm p {
+    position: relative; z-index: 2;
+    font-size: clamp(22px, 3.4vw, 32px);
+    font-weight: 600;
+    max-width: 620px;
+  }
+
+  .ll-final { background: #050C12; color: var(--off-white); }
+  .ll-final .final-ship {
+    font-size: 64px;
+    transition: transform 3.4s ease, opacity 3.4s ease;
+  }
+  .ll-final.in-view .final-ship { transform: rotate(28deg) translateY(70px); opacity: 0.15; }
+  .ll-final .final-text {
+    margin-top: 40px;
+    font-size: clamp(18px, 2.4vw, 22px);
+    color: var(--sand);
+    opacity: 0;
+    transition: opacity 1.2s ease 1.6s;
+  }
+  .ll-final.in-view .final-text { opacity: 1; }
+
+  .ll-silence {
+    background: #050C12; color: var(--off-white);
+  }
+  .ll-silence .silence-line1 {
+    font-size: clamp(22px, 3.2vw, 30px); font-weight: 600; line-height: 1.6;
+    opacity: 0; transition: opacity 1.4s ease;
+  }
+  .ll-silence.in-view .silence-line1 { opacity: 1; }
+  .ll-silence .silence-line2 {
+    margin-top: 30px; font-size: clamp(28px, 4vw, 40px); font-weight: 700; color: var(--sand);
+    opacity: 0; transition: opacity 1.4s ease 1.2s;
+  }
+  .ll-silence.in-view .silence-line2 { opacity: 1; }
+  .silence-links {
+    margin-top: 50px;
+    display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;
+    opacity: 0; transition: opacity 1.4s ease 2s;
+  }
+  .ll-silence.in-view .silence-links { opacity: 1; }
+
+  /* ---------- AYNA ALADALA (case file) ---------- */
+  .case-cover {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    background: var(--off-white);
+    padding: 140px 24px 80px;
+  }
+  .case-stamp {
+    border: 3px solid var(--accent);
+    color: var(--accent);
+    padding: 10px 26px;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 2px;
+    transform: rotate(-4deg);
+    margin-bottom: 40px;
+    opacity: 0.85;
+  }
+  .case-cover h1 { font-size: clamp(30px, 4.5vw, 42px); font-weight: 700; color: var(--navy-deep); max-width: 560px; }
+
+  .case-timeline { background: var(--sand); }
+  .case-timeline h2 { text-align: center; font-size: clamp(24px, 3.2vw, 32px); font-weight: 700; color: var(--navy-deep); margin-bottom: 60px; }
+  .timeline-track { position: relative; display: flex; justify-content: space-between; max-width: 760px; margin: 0 auto 40px; padding: 0 6px; }
+  .timeline-track::before {
+    content: ""; position: absolute; top: 11px; right: 0; left: 0; height: 1px; background: rgba(38,36,32,0.3);
+  }
+  .timeline-node { position: relative; display: flex; flex-direction: column; align-items: center; cursor: pointer; z-index: 2; }
+  .timeline-dot {
+    width: 24px; height: 24px; border-radius: 50%; background: var(--off-white); border: 2px solid var(--navy-deep);
+    transition: background-color .25s ease, border-color .25s ease;
+  }
+  .timeline-node.active .timeline-dot { background: var(--accent); border-color: var(--accent); }
+  .timeline-year { margin-top: 12px; font-size: 14px; font-weight: 600; color: var(--navy-deep); }
+  .timeline-detail {
+    display: none;
+    max-width: 640px;
+    margin: 0 auto;
+    background: var(--off-white);
+    padding: 30px 34px;
+    border-radius: 2px;
+  }
+  .timeline-detail.active { display: block; animation: fadeUp .4s ease both; }
+  .td-row { display: flex; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; }
+  .td-row:last-child { border-bottom: none; }
+  .td-label { flex: 0 0 110px; color: var(--sea); font-weight: 600; }
+  .td-value { color: var(--charcoal); opacity: 0.85; }
+  @media (max-width: 600px) { .timeline-track { padding: 0; } .timeline-year { font-size: 11.5px; } }
+
+  .tracks-section { background: var(--off-white); }
+  .tracks-section h2 { text-align: center; font-size: clamp(24px, 3.2vw, 32px); font-weight: 700; color: var(--navy-deep); margin-bottom: 54px; }
+  .tracks-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .track-col { background: var(--navy-deep); color: var(--off-white); padding: 30px 24px; border-radius: 2px; }
+  .track-col .tc-icon { font-size: 26px; margin-bottom: 14px; }
+  .track-col .tc-title { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+  .track-col .tc-sub { font-size: 13.5px; color: var(--sand); opacity: .85; margin-bottom: 18px; }
+  .track-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .track-col li { font-size: 13.5px; opacity: .7; border-right: 2px solid var(--sea); padding-right: 10px; }
+  @media (max-width: 720px) { .tracks-grid { grid-template-columns: 1fr; } }
+
+  .docs-section { background: var(--sand); text-align: center; }
+  .docs-section h2 { font-size: clamp(24px, 3.2vw, 32px); font-weight: 700; color: var(--navy-deep); margin-bottom: 16px; }
+  .docs-section > .section-inner > p { color: var(--navy-deep); opacity: .7; margin-bottom: 48px; font-size: 15px; }
+  .docs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .doc-card {
+    background: var(--off-white); border-radius: 2px; padding: 30px 18px; cursor: pointer;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .doc-card:hover { transform: translateY(-4px); }
+  .doc-card .dc-icon { font-size: 30px; margin-bottom: 12px; }
+  .doc-card .dc-title { font-size: 14.5px; font-weight: 600; color: var(--navy-deep); }
+  @media (max-width: 620px) { .docs-grid { grid-template-columns: 1fr; } }
+
+  .doc-modal {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(8,26,40,0.72);
+    display: none; align-items: center; justify-content: center; padding: 24px;
+  }
+  .doc-modal.active { display: flex; }
+  .doc-modal-box {
+    background: var(--off-white); max-width: 480px; width: 100%; border-radius: 2px; padding: 34px 30px;
+    text-align: right; position: relative;
+  }
+  .doc-modal-close {
+    position: absolute; top: 16px; left: 18px; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--charcoal); opacity: .5;
+  }
+  .doc-preview {
+    aspect-ratio: 4/3; background: linear-gradient(150deg, #E4D8BC, #DCC9A3);
+    border-radius: 2px; display: flex; align-items: center; justify-content: center;
+    color: var(--navy-deep); opacity: .55; font-size: 13px; margin-bottom: 22px;
+  }
+  .doc-modal-box .dm-q { font-size: 13px; color: var(--sea); font-weight: 600; margin-bottom: 4px; margin-top: 16px; }
+  .doc-modal-box .dm-a { font-size: 14.5px; color: var(--charcoal); opacity: .85; }
+
+  /* ---- source links (real archival links) ---- */
+  .src-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 12.5px; color: var(--sea); text-decoration: none;
+    border-bottom: 1px solid rgba(46,110,130,0.35);
+    transition: opacity .2s ease;
+  }
+  .src-link:hover { opacity: .7; }
+  .mem-section.dark .src-link, .ll-route .src-link, .ll-final .src-link { color: var(--sea-light); border-color: rgba(78,142,162,0.4); }
+  .doc-modal-box .src-link { color: var(--sea); margin-top: 4px; display: inline-flex; }
+
+  .case-ending { background: var(--navy-deep); color: var(--off-white); text-align: center; }
+  .case-ending .ce-body { font-size: clamp(18px, 2.4vw, 22px); line-height: 1.8; max-width: 620px; margin: 0 auto 40px; opacity: .92; }
+  .case-ending .ce-q { font-size: clamp(20px, 2.8vw, 26px); font-weight: 700; color: var(--sand); margin-bottom: 36px; }
+
+  /* ---------- ALLATHINA BAQU (survivors / human) ---------- */
+  .baqu-cover {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    background: radial-gradient(ellipse at 50% 25%, #1B4B5F 0%, var(--navy-deep) 70%);
+    color: var(--off-white); padding: 140px 24px 80px;
+  }
+  .baqu-cover h1 { font-size: clamp(38px, 6vw, 58px); font-weight: 700; }
+  .baqu-cover .baqu-sub { margin-top: 16px; font-size: clamp(17px, 2.2vw, 21px); color: var(--sand); font-weight: 500; }
+
+  .portraits-section { background: var(--off-white); }
+  .portraits-section h2 { text-align: center; font-size: clamp(24px, 3.2vw, 32px); font-weight: 700; color: var(--navy-deep); margin-bottom: 14px; }
+  .portraits-section > .section-inner > p { text-align: center; color: var(--charcoal); opacity: .65; margin-bottom: 50px; font-size: 14.5px; }
+  .portrait-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .portrait-item { text-align: center; cursor: pointer; }
+  .portrait-circle {
+    width: 84px; height: 84px; border-radius: 50%; margin: 0 auto 12px;
+    background: linear-gradient(150deg, #E4D8BC, #B7C9CE);
+    display: flex; align-items: center; justify-content: center; font-size: 26px; color: var(--navy-deep); opacity: .7;
+    transition: transform .25s ease;
+  }
+  .portrait-item:hover .portrait-circle { transform: scale(1.06); }
+  .portrait-item .p-label { font-size: 13px; color: var(--charcoal); opacity: .6; }
+  @media (max-width: 620px) { .portrait-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; } .portrait-circle { width: 64px; height: 64px; font-size: 20px; } }
+
+  .profile-modal-box .pm-name { font-size: 20px; font-weight: 700; color: var(--navy-deep); margin-bottom: 4px; }
+  .profile-modal-box .pm-meta { font-size: 13.5px; color: var(--sea); margin-bottom: 20px; }
+  .profile-modal-box .pm-row { display: flex; gap: 14px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+  .profile-modal-box .pm-row:last-child { border-bottom: none; }
+  .profile-modal-box .pm-label { flex: 0 0 100px; color: var(--sea); font-weight: 600; }
+  .profile-modal-box .pm-value { color: var(--charcoal); opacity: .85; }
+
+  .families-section { background: var(--sand); }
+  .families-section h2 { text-align: center; font-size: clamp(24px, 3.2vw, 32px); font-weight: 700; color: var(--navy-deep); margin-bottom: 50px; }
+  .audio-grid { display: flex; flex-direction: column; gap: 14px; max-width: 620px; margin: 0 auto; }
+  .audio-card {
+    display: flex; align-items: center; gap: 16px; background: var(--off-white); border-radius: 2px; padding: 20px 24px;
+    cursor: pointer; text-align: right;
+  }
+  .audio-card .ac-icon { font-size: 22px; flex-shrink: 0; transition: transform .3s ease; }
+  .audio-card.playing .ac-icon { transform: scale(1.15); }
+  .audio-card .ac-quote { font-size: 15.5px; color: var(--navy-deep); font-weight: 500; }
+  .audio-card .ac-status { font-size: 12.5px; color: var(--accent); margin-top: 6px; display: none; }
+  .audio-card.playing .ac-status { display: block; }
+
+  .survivors-section { background: var(--off-white); }
+  .survivors-section h2 { text-align: center; font-size: clamp(24px, 3.2vw, 32px); font-weight: 700; color: var(--navy-deep); margin-bottom: 50px; }
+  .survivors-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .survivor-card { background: var(--navy-deep); color: var(--off-white); border-radius: 2px; overflow: hidden; }
+  .survivor-media {
+    aspect-ratio: 4/3; background: linear-gradient(150deg, #16394F, #2E6E82);
+    display: flex; align-items: center; justify-content: center; font-size: 26px; opacity: .7;
+  }
+  .survivor-body { padding: 20px; }
+  .survivor-body .sv-label { font-size: 13px; color: var(--sand); margin-bottom: 6px; }
+  .survivor-body .sv-text { font-size: 14px; opacity: .75; }
+  @media (max-width: 700px) { .survivors-grid { grid-template-columns: 1fr; } }
+
+  .seats-section { background: var(--navy-deep); color: var(--off-white); text-align: center; }
+  .seats-section h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 700; margin-bottom: 8px; }
+  .seats-note { font-size: 13px; color: var(--accent); opacity: .85; margin-bottom: 40px; }
+  .seats-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 7px; max-width: 480px; margin: 0 auto 44px; }
+  .seat {
+    aspect-ratio: 1; background: var(--sea-light); border-radius: 1px;
+    opacity: 0.9; transition: opacity 1.1s ease, transform 1.1s ease;
+  }
+  .seats-grid.in-view .seat.gone { opacity: 0.08; transform: scale(0.7); }
+  .seats-section .seats-line { font-size: clamp(18px, 2.4vw, 22px); font-weight: 600; color: var(--sand); }
+
+  .baqu-continue { background: var(--off-white); text-align: center; }
+  .baqu-continue p { font-size: clamp(17px, 2.2vw, 20px); color: var(--navy-deep); opacity: .8; margin-bottom: 28px; }
+
+  /* ---------- ATHTHAKIRA (memory — final section) ---------- */
+  .mem-cover {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    background: radial-gradient(ellipse at 50% 25%, #123246 0%, var(--navy-deep) 70%);
+    color: var(--off-white); padding: 140px 24px 80px;
+  }
+  .mem-cover .mem-icon { font-size: 44px; margin-bottom: 22px; opacity: .9; }
+  .mem-cover h1 { font-size: clamp(38px, 6vw, 58px); font-weight: 700; }
+  .mem-cover .mem-q { margin-top: 16px; font-size: clamp(17px, 2.2vw, 21px); color: var(--sand); font-weight: 500; max-width: 480px; }
+
+  .mem-section { background: var(--off-white); }
+  .mem-section.alt { background: var(--sand); }
+  .mem-section.dark { background: var(--navy-deep); color: var(--off-white); }
+  .mem-eyebrow { text-align: center; font-size: 13px; letter-spacing: 1px; color: var(--sea); font-weight: 600; margin-bottom: 12px; }
+  .mem-section.dark .mem-eyebrow { color: var(--sea-light); }
+  .mem-h2 { text-align: center; font-size: clamp(24px, 3.2vw, 32px); font-weight: 700; margin-bottom: 46px; color: var(--navy-deep); }
+  .mem-section.dark .mem-h2 { color: var(--off-white); }
+
+  /* vertical timeline */
+  .vtimeline { max-width: 420px; margin: 0 auto; position: relative; }
+  .vtimeline::before { content:""; position:absolute; top:6px; bottom:6px; right:9px; width:1px; background: rgba(38,36,32,0.25); }
+  .vt-item { position: relative; padding: 0 40px 34px 0; }
+  .vt-item:last-child { padding-bottom: 0; }
+  .vt-item::before { content:""; position:absolute; right:4px; top:4px; width:12px; height:12px; border-radius:50%; background: var(--sea); border:2px solid var(--off-white); box-shadow: 0 0 0 1px var(--sea); }
+  .vt-year { font-weight: 700; color: var(--navy-deep); font-size: 16px; }
+  .vt-label { font-size: 14px; color: var(--charcoal); opacity: .7; margin-top: 2px; }
+  .vt-note { text-align:center; font-size: 12.5px; color: var(--accent); margin-top: 30px; opacity: .85; }
+
+  /* newspaper wall */
+  .news-jump { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-bottom: 30px; }
+  .news-jump button { border:1px solid var(--line); background: none; font-family: inherit; font-size: 13px; padding: 6px 14px; border-radius: 20px; cursor: pointer; color: var(--navy-deep); opacity: .65; }
+  .news-jump button:hover { opacity: 1; border-color: var(--sea); }
+  .news-wall { display:flex; gap:16px; overflow-x:auto; padding: 6px 4px 20px; scroll-snap-type: x proximity; }
+  .news-wall::-webkit-scrollbar { height: 5px; }
+  .news-wall::-webkit-scrollbar-thumb { background: var(--sea); border-radius: 3px; }
+  .news-card { flex: 0 0 200px; scroll-snap-align: start; background: var(--off-white); border-radius: 2px; padding: 18px; }
+  .news-card .nc-thumb { aspect-ratio: 3/4; background: linear-gradient(150deg,#E4D8BC,#DCC9A3); border-radius: 2px; display:flex; align-items:center; justify-content:center; color:var(--navy-deep); opacity:.5; font-size:12px; margin-bottom: 14px; }
+  .news-card .nc-year { font-size: 12px; color: var(--sea); font-weight: 700; }
+  .news-card .nc-outlet { font-size: 14.5px; font-weight: 700; color: var(--navy-deep); margin: 4px 0 6px; }
+  .news-card .nc-headline { font-size: 12.5px; opacity: .6; color: var(--charcoal); }
+
+  /* audio table */
+  .audio-table { max-width: 640px; margin: 0 auto; }
+  .at-row { display:flex; align-items:center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line-light); font-size: 14px; }
+  .at-row:last-child { border-bottom: none; }
+  .at-year { flex: 0 0 56px; color: var(--sand); font-weight: 700; }
+  .at-mid { flex: 1; }
+  .at-source { opacity: .85; }
+  .at-tags { display:flex; gap:6px; margin-top:4px; }
+  .at-tag { font-size: 11px; border:1px solid var(--line-light); border-radius: 20px; padding: 2px 10px; opacity: .7; }
+  .at-play { flex:0 0 auto; background:none; border:1px solid var(--line-light); color: var(--off-white); border-radius: 20px; padding: 7px 16px; font-family:inherit; font-size:13px; cursor:pointer; transition: background-color .25s ease; text-decoration:none; display:inline-flex; align-items:center; }
+  .at-play:hover { background: var(--sea); }
+  .at-status { font-size: 11.5px; color: var(--accent); margin-top: 4px; display:none; }
+  .at-row.playing .at-status { display:block; }
+
+  /* channels grid */
+  .channels-grid { display:grid; grid-template-columns: repeat(4,1fr); gap: 14px; max-width: 760px; margin: 0 auto; }
+  .channel-card { background: var(--off-white); border-radius: 2px; padding: 20px 14px; text-align:center; }
+  .channel-card .ch-thumb { aspect-ratio: 16/9; background: linear-gradient(150deg,#16394F,#2E6E82); border-radius:2px; display:flex; align-items:center; justify-content:center; color:var(--off-white); opacity:.7; font-size: 13px; margin-bottom: 12px; }
+  .channel-card .ch-name { font-size: 14px; font-weight: 700; color: var(--navy-deep); }
+  .channel-card .ch-meta { font-size: 11.5px; color: var(--charcoal); opacity: .55; margin-top: 4px; }
+  @media (max-width: 700px) { .channels-grid { grid-template-columns: repeat(2,1fr); } }
+
+  /* comparison split */
+  .compare-split { display:grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 760px; margin: 0 auto 50px; }
+  .compare-col { padding: 30px 26px; border-radius: 2px; }
+  .compare-col.sn { background: #0F2E42; color: var(--off-white); }
+  .compare-col.global { background: var(--sea); color: var(--off-white); }
+  .compare-col .cc-flag { font-size: 22px; margin-bottom: 10px; }
+  .compare-col .cc-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+  .compare-col ul { list-style:none; display:flex; flex-direction:column; gap: 9px; }
+  .compare-col li { font-size: 13.5px; opacity: .85; border-right: 2px solid rgba(255,255,255,0.4); padding-right: 10px; }
+  .compare-verdict { text-align:center; font-size: clamp(19px,2.6vw,24px); font-weight: 700; color: var(--navy-deep); max-width: 480px; margin: 0 auto; line-height: 1.7; }
+  .compare-intro { max-width:820px; margin:-20px auto 38px; text-align:center; color:var(--charcoal); opacity:.78; font-size:14.5px; line-height:1.9; }
+  .compare-col .cc-title { line-height:1.7; }
+  .compare-col .cc-title span { color:var(--sand); font-size:13px; }
+  .compare-col li { line-height:1.8; }
+  .compare-col li strong { color:var(--sand); }
+  .compare-audience { margin-top:20px; padding-top:14px; border-top:1px solid rgba(255,255,255,.25); color:var(--off-white); font-size:12.5px; line-height:1.7; opacity:.9; }
+  .compare-table-wrap { max-width:900px; margin:0 auto 34px; overflow-x:auto; background:var(--off-white); border:1px solid var(--line); }
+  .compare-table { border-collapse:collapse; width:100%; min-width:650px; text-align:right; color:var(--charcoal); font-size:13px; line-height:1.75; }
+  .compare-table caption { text-align:right; padding:14px 16px 8px; color:var(--navy-deep); font-size:15px; font-weight:700; }
+  .compare-table th, .compare-table td { padding:13px 16px; border-bottom:1px solid var(--line); vertical-align:top; }
+  .compare-table thead th { background:var(--navy); color:var(--off-white); font-weight:700; }
+  .compare-table tbody th { width:145px; color:var(--sea); font-weight:700; }
+  .compare-table tbody tr:last-child th, .compare-table tbody tr:last-child td { border-bottom:none; }
+  .compare-trauma { max-width:820px; margin:0 auto; padding:24px 28px; text-align:center; background:var(--navy-deep); color:var(--off-white); }
+  .compare-trauma .ct-label { color:var(--sand); font-size:13px; font-weight:700; margin-bottom:10px; }
+  .compare-trauma p { font-size:15px; line-height:1.9; }
+  .compare-source-note { max-width:820px; margin:18px auto 0; font-size:12px; text-align:center; color:var(--charcoal); opacity:.62; }
+  @media (max-width: 600px) { .compare-split { grid-template-columns: 1fr; } .compare-col { padding:24px 20px; } .compare-trauma { padding:20px; } }
+
+  /* museum */
+  .museum-hero { aspect-ratio: 21/9; max-width: 900px; margin: 0 auto 40px; background: linear-gradient(150deg,#16394F,#2E6E82); border-radius: 2px; display:flex; align-items:center; justify-content:center; color: var(--off-white); opacity:.75; font-size: 15px; }
+  .museum-title { text-align:center; font-size: clamp(22px,3vw,28px); font-weight:700; color: var(--off-white); margin-bottom: 8px; }
+  .museum-sub { text-align:center; font-size: 14.5px; color: var(--sand); opacity:.85; max-width: 480px; margin: 0 auto 50px; }
+  .museum-grid { display:grid; grid-template-columns: repeat(3,1fr); gap: 14px; max-width: 760px; margin: 0 auto 44px; }
+  .museum-shot { aspect-ratio: 4/3; background: linear-gradient(150deg,#1B4B5F,#2E6E82); border-radius:2px; display:flex; align-items:center; justify-content:center; color: var(--off-white); opacity:.6; font-size: 12.5px; }
+  .museum-qa { max-width: 620px; margin: 0 auto; display:flex; flex-direction:column; gap: 22px; }
+  .museum-qa .mq-q { font-size: 13px; color: var(--sea-light); font-weight:600; margin-bottom: 4px; }
+  .museum-qa .mq-a { font-size: 14.5px; color: var(--off-white); opacity:.8; }
+
+  /* grand ending */
+  .grand-ending {
+    min-height: 100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+    background: linear-gradient(180deg, #050C12 0%, #0B2436 100%);
+    color: var(--off-white); padding: 100px 24px; position:relative; overflow:hidden;
+  }
+  .grand-ending .ge-waves { position:absolute; inset:0; opacity:.28; }
+  .grand-ending .ge-waves svg { position:absolute; bottom:0; width:220%; }
+  .ge-line1 { font-size: clamp(20px,2.8vw,26px); font-weight:600; line-height:1.7; position:relative; z-index:2; opacity:0; transition: opacity 1.3s ease; }
+  .grand-ending.in-view .ge-line1 { opacity:1; }
+  .ge-q { margin-top: 44px; font-size: clamp(26px,4vw,38px); font-weight:700; color: var(--sand); position:relative; z-index:2; opacity:0; transition: opacity 1.3s ease 1.1s; }
+  .grand-ending.in-view .ge-q { opacity:1; }
+  .ge-brand { margin-top: 22px; font-size: 14px; opacity:0; letter-spacing:.5px; color: var(--sea-light); position:relative; z-index:2; transition: opacity 1.3s ease 1.8s; }
+  .grand-ending.in-view .ge-brand { opacity: .8; }
+  .ge-back { margin-top: 50px; position:relative; z-index:2; opacity:0; transition: opacity 1.3s ease 2.4s; }
+  .grand-ending.in-view .ge-back { opacity:1; }
+
+  /* ---------- AN AL-MASHROE (project brief page) ---------- */
+  .prod-phase {
+    display: flex; align-items: flex-start; gap: 20px;
+    padding: 22px 0; border-bottom: 1px solid var(--line-light);
+  }
+  .prod-phase:last-child { border-bottom: none; }
+  .prod-phase .pp-num {
+    flex: 0 0 52px; height: 52px; border-radius: 50%;
+    background: var(--navy); border: 1px solid var(--sea-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 700; color: var(--sea-light);
+  }
+  .prod-phase .pp-body { flex: 1; }
+  .prod-phase .pp-title { font-size: 15px; font-weight: 700; color: var(--off-white); margin-bottom: 4px; }
+  .prod-phase .pp-duration { font-size: 12.5px; color: var(--sand); margin-bottom: 8px; }
+  .prod-phase .pp-tasks { font-size: 13px; color: var(--off-white); opacity: .75; line-height: 1.7; }
+
+  .ref-item { padding-left: 22px; position: relative; text-align: left; direction: ltr; }
+  .ref-item::before { content: "—"; position: absolute; left: 0; color: var(--sea); }
+
+  /* Personal film / research diary */
+  .film-cover { padding-top: 150px; }
+  .film-mark { width: 58px; height: 58px; border: 1px solid var(--sea-light); border-radius: 50%; display:flex; align-items:center; justify-content:center; color:var(--sand); font-size:15px; margin-bottom:22px; }
+  .film-meta { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:22px; }
+  .film-meta span { color:var(--sand); font-size:13px; border:1px solid var(--line-light); padding:6px 12px; border-radius:30px; }
+  .film-concept { max-width:680px; margin:34px auto 0; color:var(--off-white); font-size:clamp(19px,2.5vw,26px); font-weight:600; line-height:1.7; }
+  .film-placeholder { width:min(720px,92vw); min-height:190px; margin-top:34px; border:1px solid var(--line-light); background:linear-gradient(135deg,rgba(15,46,66,.9),rgba(27,75,95,.75)); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; color:var(--off-white); }
+  .film-placeholder-icon { width:50px; height:50px; border:1px solid var(--sand); border-radius:50%; display:grid; place-items:center; color:var(--sand); margin-bottom:4px; }
+  .film-placeholder strong { font-size:16px; }
+  .film-placeholder span:last-child { font-size:13px; opacity:.7; }
+  .film-core-line { color:var(--sea); font-weight:700; }
+  .film-process-list { display:flex; gap:9px; justify-content:center; flex-wrap:wrap; margin-top:28px; }
+  .film-process-list span { background:var(--sand); color:var(--navy-deep); padding:8px 14px; border-radius:24px; font-size:13px; }
+
+  /* Verified survivor profiles */
+  .survivor-eyebrow { text-align:center; color:var(--sea); font-size:13px; font-weight:700; letter-spacing:.5px; margin-bottom:10px; }
+  .survivor-intro { text-align:center; color:var(--charcoal); opacity:.72; max-width:680px; margin:0 auto 26px; }
+  .survivor-caveat { max-width:850px; margin:0 auto 34px; padding:16px 20px; background:var(--sand); color:var(--navy-deep); font-size:13.5px; line-height:1.8; border-right:3px solid var(--accent); }
+  .survivor-tools, .refs-toolbar { max-width:900px; margin:0 auto 24px; }
+  .survivor-tools label, .refs-toolbar label { display:block; font-size:13px; font-weight:700; color:var(--navy-deep); margin-bottom:8px; }
+  .survivor-tools input, .refs-toolbar input { width:100%; padding:13px 15px; border:1px solid var(--line); background:#fffdf8; color:var(--charcoal); border-radius:3px; font:inherit; outline:none; }
+  .survivor-tools input:focus, .refs-toolbar input:focus { border-color:var(--sea); box-shadow:0 0 0 3px rgba(46,110,130,.12); }
+  .survivor-count, .refs-count { color:var(--sea); font-size:12.5px; margin-top:8px; }
+  .survivor-grid { max-width:1000px; margin:0 auto; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+  .survivor-card { background:#fffdf8; border:1px solid var(--line); border-radius:4px; overflow:hidden; }
+  .survivor-card[hidden], .ref-card[hidden] { display:none !important; }
+  .survivor-card summary { list-style:none; cursor:pointer; display:grid; grid-template-columns:48px 1fr 22px; gap:13px; align-items:center; padding:17px; }
+  .survivor-card summary::-webkit-details-marker { display:none; }
+  .survivor-avatar { width:44px; height:44px; display:grid; place-items:center; border-radius:50%; color:var(--sand); background:var(--navy); font-size:17px; font-weight:700; }
+  .survivor-name { display:block; color:var(--navy-deep); font-size:16px; font-weight:700; }
+  .survivor-latin { display:block; color:var(--sea); font-size:12px; direction:ltr; text-align:right; }
+  .survivor-role { display:block; font-size:12.5px; color:var(--charcoal); opacity:.66; margin-top:3px; }
+  .survivor-chevron { color:var(--sea); transition:transform .2s ease; }
+  .survivor-card[open] .survivor-chevron { transform:rotate(180deg); }
+  .survivor-detail { padding:0 18px 18px; border-top:1px solid var(--line); }
+  .survivor-detail p { margin-top:14px; font-size:14px; line-height:1.85; color:var(--charcoal); }
+  .survivor-source { display:inline-flex; margin-top:12px; color:var(--sea); border-bottom:1px solid rgba(46,110,130,.35); font-size:13px; }
+  .survivor-source-note { font-size:11.5px !important; opacity:.62; }
+  .survivor-rights { max-width:900px; margin:24px auto 0; font-size:12.5px; color:var(--accent); }
+  .survivor-closing { max-width:850px; margin:34px auto 0; color:var(--navy-deep); font-size:16px; font-weight:600; line-height:1.9; text-align:center; }
+  @media (max-width:650px) { .survivor-grid { grid-template-columns:1fr; } }
+
+  /* Searchable, filterable bibliography */
+  .refs-intro { max-width:720px; margin:-24px auto 32px; text-align:center; color:var(--charcoal); opacity:.72; font-size:14px; }
+  .refs-toolbar { max-width:780px; }
+  .refs-filters { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+  .ref-filter { border:1px solid var(--line); background:transparent; border-radius:24px; padding:7px 13px; cursor:pointer; color:var(--navy-deep); font:inherit; font-size:12.5px; transition:background .2s,color .2s,border-color .2s; }
+  .ref-filter:hover, .ref-filter.active { background:var(--navy); color:var(--off-white); border-color:var(--navy); }
+  .refs-list { max-width:780px; margin:0 auto; display:flex; flex-direction:column; gap:10px; }
+  .ref-card { background:#fffdf8; border:1px solid var(--line); border-radius:3px; overflow:hidden; }
+  .ref-card summary { list-style:none; cursor:pointer; display:flex; align-items:flex-start; gap:12px; padding:15px 16px; }
+  .ref-card summary::-webkit-details-marker { display:none; }
+  .ref-type { flex:0 0 auto; min-width:76px; text-align:center; color:var(--sea); border:1px solid rgba(46,110,130,.25); border-radius:18px; padding:3px 8px; font-size:11px; }
+  .ref-title { flex:1; color:var(--navy-deep); font-size:13.5px; line-height:1.7; font-weight:600; }
+  .ref-chevron { color:var(--sea); transition:transform .2s ease; }
+  .ref-card[open] .ref-chevron { transform:rotate(180deg); }
+  .ref-detail { border-top:1px solid var(--line); padding:12px 16px 16px; font-size:13px; line-height:1.8; }
+  .ref-detail p { color:var(--charcoal); opacity:.8; }
+  .ref-detail a { display:inline-flex; margin-top:8px; color:var(--sea); border-bottom:1px solid rgba(46,110,130,.35); }
+  .refs-empty { padding:22px; text-align:center; color:var(--charcoal); opacity:.65; background:#fffdf8; border:1px dashed var(--line); }
+
+  /* Contact */
+  .contact-section { text-align:center; }
+  .contact-copy { color:var(--charcoal); opacity:.76; margin-bottom:15px; }
+  .contact-email { display:inline-block; direction:ltr; color:var(--sea); font-size:clamp(18px,2.5vw,24px); font-weight:700; border-bottom:1px solid var(--sea); padding:3px 0; }
+  .foot-contact { margin:18px auto 0; font-size:13.5px; color:var(--off-white); opacity:.84; }
+  .foot-contact a { color:var(--sand); direction:ltr; display:inline-block; }
+
+  /* Symbolic generated artwork for the home hero and experience index */
+  .hero {
+    background-image: linear-gradient(180deg, rgba(8,26,40,.48), rgba(8,26,40,.67) 58%, rgba(8,26,40,.28)), url('assets/hero-joola.jpg');
+    background-size: cover;
+    background-position: center 58%;
+  }
+  .hero-waves { opacity: .22; }
+  .hero-art-caption { margin-top: 14px; color: var(--off-white); font-size: 12px; opacity: .72; }
+  .journey-head .journey-art-note { margin-top: 6px; color: var(--off-white); font-size: 12px; opacity: .56; }
+  .journey-path::before { display: none; }
+  .journey-item {
+    align-items: center;
+    gap: 22px;
+    padding: 16px;
+    margin-bottom: 14px;
+    background: rgba(243,238,226,.045);
+    border: 1px solid var(--line-light);
+    border-radius: 3px;
+    transition: background-color .25s ease, border-color .25s ease, transform .25s ease;
+  }
+  .journey-item:hover { background: rgba(243,238,226,.085); border-color: rgba(243,238,226,.38); transform: translateY(-2px); }
+  .journey-num {
+    flex: 0 0 190px;
+    width: 190px;
+    height: 126px;
+    border: 0;
+    border-radius: 2px;
+    background: transparent;
+    overflow: hidden;
+    padding: 0;
+  }
+  .journey-num img { width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
+  .journey-item:hover .journey-num img { transform: scale(1.045); }
+  .journey-body { flex: 1; }
+  @media (max-width: 760px) {
+    .journey-item { gap: 14px; padding: 12px; }
+    .journey-num { flex-basis: 128px; width: 128px; height: 96px; }
+    .journey-arrow { font-size: 15px; }
+  }
+  @media (max-width: 420px) {
+    .journey-item { gap: 10px; padding: 9px; }
+    .journey-num { flex-basis: 96px; width: 96px; height: 82px; }
+    .journey-sub { font-size: 12.5px; }
+  }
+
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-brand">لو جولا <span>| ذاكرة لا تغرق</span></div>
+  <div class="nav-links" id="navLinks">
+    <a href="#/" data-route="/">الرئيسية</a>
+    <a href="#/kharij-alhisban" data-route="/kharij-alhisban">فيلم تجربتي مع جولا</a>
+    <a href="#/laylat-lejoola" data-route="/laylat-lejoola">ليلة لو جولا</a>
+    <a href="#/ayna-aladala" data-route="/ayna-aladala">أين العدالة؟</a>
+    <a href="#/allathina-baqu" data-route="/allathina-baqu">الذين بقوا</a>
+    <a href="#/aththakira" data-route="/aththakira">الذاكرة</a>
+    <a href="#/an-al-mashroe" data-route="/an-al-mashroe">عن المشروع</a>
+  </div>
+  <div class="nav-lang">
+    <span>AR</span><b>|</b><span>FR</span><b>|</b><span>EN</span>
+  </div>
+  <button class="nav-toggle" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="navLinks"><i></i><i></i><i></i></button>
+</nav>
+
+<div class="page active" id="view-home">
+
+<section class="hero" id="top" aria-label="رسم توضيحي رمزي مرتبط بكارثة عبارة جولا، وليس صورة أرشيفية">
+  <div class="hero-waves">
+    <svg class="wave-1" viewBox="0 0 1600 220" preserveAspectRatio="none"><path d="M0,110 C 200,180 400,40 600,100 C 800,160 1000,20 1200,90 C 1400,150 1500,110 1600,120 L1600,220 L0,220 Z" fill="#2E6E82"/></svg>
+    <svg class="wave-2" viewBox="0 0 1600 220" preserveAspectRatio="none"><path d="M0,140 C 220,80 420,190 640,120 C 860,60 1080,170 1300,110 C 1450,80 1550,120 1600,130 L1600,220 L0,220 Z" fill="#4E8EA2"/></svg>
+    <svg class="wave-3" viewBox="0 0 1600 220" preserveAspectRatio="none"><path d="M0,160 C 260,120 480,200 700,150 C 920,100 1140,190 1360,140 C 1470,115 1540,150 1600,155 L1600,220 L0,220 Z" fill="#DCC9A3"/></svg>
+  </div>
+  <div class="hero-content">
+    <div class="hero-date">26 سبتمبر 2002</div>
+    <div class="hero-title">لو جولا</div>
+    <div class="hero-subtitle">ذاكرة لا تغرق</div>
+    <p class="hero-line">غرقت السفينة في دقائق. لكن آثار الكارثة استمرت لعقود.</p>
+    <p class="hero-art-caption">رسم توضيحي رمزي، وليس صورة أرشيفية</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#numbers">اكتشف الأرشيف ↓</a>
+      <a class="btn btn-ghost" href="#/kharij-alhisban" data-route="/kharij-alhisban">فيلم تجربتي مع جولا ←</a>
+    </div>
+  </div>
+  <div class="scroll-hint">مرر للأسفل</div>
+</section>
+
+<section class="numbers" id="numbers">
+  <div class="section-inner">
+    <p class="numbers-lead">في ليلة واحدة، تغير مصير آلاف الأسر.</p>
+    <div class="stat-row">
+      <div class="stat">
+        <div class="stat-num">1,863</div>
+        <div class="stat-label">ضحايا</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">64</div>
+        <div class="stat-label">ناجيا وفق الرقم الرسمي المتداول</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">2002</div>
+        <div class="stat-label">عام الكارثة</div>
+      </div>
+    </div>
+    <div class="numbers-note">⚠️ الرقم الرسمي المتداول هو 64 ناجيا، مع ورود 65 في بعض الوثائق المبكرة. الأرقام الأخرى تستند إلى Wiley (2012) وMaritimafrica (2022) وتحتاج إلى مراجعة نهائية قبل النشر.</div>
+  </div>
+</section>
+
+<section class="pivotal">
+  <div class="pivotal-inner">
+    <p>لو جولا ليست قصة سفينة غرقت.<br>إنها قصة الذين رحلوا، والذين نجوا، والذين ظلوا يسألون.</p>
+  </div>
+</section>
+
+<div class="water-divider" style="background:var(--navy-deep)">
+  <svg viewBox="0 0 1600 90" preserveAspectRatio="none"><path d="M0,45 C 220,10 420,80 640,40 C 860,0 1080,70 1300,35 C 1450,15 1550,40 1600,45 L1600,90 L0,90 Z" fill="#0B2436"/></svg>
+</div>
+
+<section class="journey">
+  <div class="section-inner">
+    <div class="journey-head">
+      <h2>خمس تجارب. رحلة واحدة.</h2>
+      <p>كل قسم صفحة قائمة بذاتها — بصريا وسرديا</p>
+      <p class="journey-art-note">الصور التوضيحية رمزية وليست صورا أرشيفية.</p>
+    </div>
+    <div class="journey-path">
+
+      <a class="journey-item" href="#/kharij-alhisban" data-route="/kharij-alhisban">
+        <div class="journey-num"><img src="assets/index-film-diary.jpg" alt="رسم توضيحي رمزي ليوميات البحث والتوثيق" loading="lazy"></div>
+        <div class="journey-body">
+          <div class="journey-index">01</div>
+          <div class="journey-title">فيلم تجربتي مع جولا</div>
+          <div class="journey-sub">فيلم شخصي توثيقي — رحلة إنجاز مشروع التخرج</div>
+        </div>
+        <div class="journey-arrow">←</div>
+      </a>
+
+      <a class="journey-item" href="#/laylat-lejoola" data-route="/laylat-lejoola">
+        <div class="journey-num"><img src="assets/index-ferry-night.jpg" alt="رسم توضيحي رمزي لليلة غرق العبارة" loading="lazy"></div>
+        <div class="journey-body">
+          <div class="journey-index">02</div>
+          <div class="journey-title">ليلة لو جولا</div>
+          <div class="journey-sub">كيف حدث الغرق؟</div>
+        </div>
+        <div class="journey-arrow">←</div>
+      </a>
+
+      <a class="journey-item" href="#/ayna-aladala" data-route="/ayna-aladala">
+        <div class="journey-num"><img src="assets/index-justice.jpg" alt="رسم توضيحي رمزي للعدالة والمساءلة" loading="lazy"></div>
+        <div class="journey-body">
+          <div class="journey-index">03</div>
+          <div class="journey-title">أين العدالة؟</div>
+          <div class="journey-sub">ماذا حدث بعد الكارثة؟</div>
+        </div>
+        <div class="journey-arrow">←</div>
+      </a>
+
+      <a class="journey-item" href="#/allathina-baqu" data-route="/allathina-baqu">
+        <div class="journey-num"><img src="assets/index-survivors.jpg" alt="رسم توضيحي رمزي للناجين والعائلات" loading="lazy"></div>
+        <div class="journey-body">
+          <div class="journey-index">04</div>
+          <div class="journey-title">الذين بقوا</div>
+          <div class="journey-sub">البشر خلف الأرقام</div>
+        </div>
+        <div class="journey-arrow">←</div>
+      </a>
+
+      <a class="journey-item" href="#/aththakira" data-route="/aththakira">
+        <div class="journey-num"><img src="assets/index-memory.jpg" alt="رسم توضيحي رمزي للذاكرة والتذكار" loading="lazy"></div>
+        <div class="journey-body">
+          <div class="journey-index">05</div>
+          <div class="journey-title">الذاكرة</div>
+          <div class="journey-sub">ما الذي بقي؟</div>
+        </div>
+        <div class="journey-arrow">←</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="foot-line">مرت سنوات على الغرق. لكن البحر ما زال يحمل القصة.</p>
+  <div class="foot-contact">للتواصل: <a href="mailto:lotusdiarriyatu@gmail.com">lotusdiarriyatu@gmail.com</a></div>
+  <div class="foot-brand">لو جولا | ذاكرة لا تغرق</div>
+</footer>
+
+</div><!-- /view-home -->
+
+<div class="page" id="view-kharij-alhisban">
+  <div class="cover film-cover">
+    <div class="cover-eyebrow">01 — يوميات البحث</div>
+    <div class="film-mark" aria-hidden="true">ج | 02</div>
+    <h1>فيلم تجربتي مع جولا</h1>
+    <div class="cover-sub">فيلم شخصي توثيقي عن رحلة إنجاز مشروع التخرج</div>
+    <div class="film-meta">
+      <span>المدة: 5 دقائق</span>
+      <span>الصيغة: Video Essay / Research Diary</span>
+    </div>
+    <div class="film-concept">
+      بدأت أبحث عن كارثة سفينة، لكنني اكتشفت أن قصتها لا تنتهي عند الغرق.
+    </div>
+    <div class="film-placeholder" aria-label="الفيلم قيد الإنجاز">
+      <span class="film-placeholder-icon" aria-hidden="true">▶</span>
+      <strong>الفيلم قيد الإنجاز</strong>
+      <span>ستضاف النسخة النهائية هنا بعد اكتمال إنتاجها.</span>
+    </div>
+  </div>
+  <section class="about-film">
+    <div class="section-inner">
+      <h3>الفكرة الإخراجية</h3>
+      <p>يرافق الفيلم رحلتي من البحث في كارثة عبارة «جولا» إلى الأسئلة التي تركتها في داخلي: كيف انتقلت من أسباب الغرق إلى المسؤولية والعدالة، ثم إلى مصائر الأشخاص الذين خلفتهم الكارثة؟</p>
+    </div>
+  </section>
+  <section class="tabs-section">
+    <div class="section-inner">
+      <div class="tab-bar" role="tablist" aria-label="تفاصيل الفيلم">
+        <button class="tab-btn active" type="button" role="tab" aria-selected="true" data-tab="story">الفكرة</button>
+        <button class="tab-btn" type="button" role="tab" aria-selected="false" data-tab="character">مسار البحث</button>
+        <button class="tab-btn" type="button" role="tab" aria-selected="false" data-tab="behind">الصوت والصورة</button>
+      </div>
+      <div class="tab-panel active" id="tab-story" role="tabpanel">
+        <p>فيلم شخصي توثيقي يتتبع رحلة إنجاز مشروع التخرج، لا إعادة رواية كارثة جولا من الخارج. نرى كيف بدأ السؤال بالبحث عن أسباب الغرق، ثم اتسع ليشمل المسؤولية والعدالة، قبل أن يقود إلى الناس الذين ظل أثر الكارثة حاضرا في حياتهم.</p>
+        <p class="film-core-line">بدأت أبحث عن كارثة سفينة، لكنني اكتشفت أن قصتها لا تنتهي عند الغرق.</p>
+      </div>
+      <div class="tab-panel" id="tab-character" role="tabpanel">
+        <p>تبدأ الرحلة من قراءة الوثائق والمصادر الصحفية لفهم ما حدث، ثم تتحول إلى أسئلة عن المحاسبة والعدالة، وتنتهي بالاقتراب من شهادات الناجين والعائلات والذاكرة الإنسانية التي تقف خلف الأرقام.</p>
+        <p>المسار ليس إجابة جاهزة؛ إنه يوميات بحث تتغير فيها زاوية النظر كلما ظهرت وثيقة أو شهادة جديدة.</p>
+      </div>
+      <div class="tab-panel" id="tab-behind" role="tabpanel">
+        <p>صوتي هو الخيط الذي يربط المشاهد. ترافقه لقطات لي أثناء البحث والكتابة ومراجعة الوثائق وإعداد الفيلم، إلى جانب مواد صحفية وصور مرتبطة بالقضية ولقطات من التحضير للمشروع، مع مراعاة التوثيق وحقوق الاستخدام.</p>
+        <div class="film-process-list">
+          <span>البحث والقراءة</span><span>الكتابة</span><span>مراجعة الوثائق</span><span>التحضير والتصوير</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="page-transition">
+    <div class="section-inner">
+      <div class="pt-lead">من رحلة البحث الشخصية…</div>
+      <div class="pt-next">إلى ليلة غرق عبارة جولا</div>
+      <a class="btn btn-primary" href="#/laylat-lejoola" data-route="/laylat-lejoola">انتقل إلى ليلة جولا ←</a>
+    </div>
+  </section>
+</div>
+
+<div class="page" id="view-laylat-lejoola">
+
+  <section class="ll-scene ll-cover">
+    <div class="ll-ship-icon">⚓</div>
+    <h1>ليلة لو جولا</h1>
+    <div class="ll-q">كيف حدث الغرق؟</div>
+    <a class="btn btn-primary" href="#ll-ship-anchor" onclick="document.getElementById('ll-ship-anchor').scrollIntoView({behavior:'smooth'}); return false;">ابدأ الرحلة ↓</a>
+  </section>
+
+  <section class="ll-scene ll-ship-section" id="ll-ship-anchor">
+    <div class="section-inner">
+      <h2 class="reveal">السفينة</h2>
+      <div class="ship-diagram reveal">
+        <svg viewBox="0 0 600 180" preserveAspectRatio="xMidYMid meet">
+          <path d="M40,120 Q40,150 90,150 L470,150 Q540,150 560,110 L520,110 L520,80 Q520,60 495,60 L120,60 Q95,60 90,80 L80,110 L40,110 Z"
+                fill="none" stroke="#2E6E82" stroke-width="3"/>
+          <rect x="160" y="35" width="90" height="28" fill="none" stroke="#2E6E82" stroke-width="3"/>
+          <line x1="0" y1="150" x2="600" y2="150" stroke="#DCC9A3" stroke-width="2" stroke-dasharray="6 6"/>
+        </svg>
+        <button class="hotspot" style="left:14%; top:78%;" data-key="length" aria-label="الطول"></button>
+        <button class="hotspot" style="left:36%; top:30%;" data-key="width" aria-label="العرض"></button>
+        <button class="hotspot" style="left:82%; top:60%;" data-key="capacity" aria-label="السعة التصميمية"></button>
+      </div>
+      <div class="ship-detail" id="shipDetail">
+        <div class="sd-label" id="sdLabel">—</div>
+        <div class="sd-value" id="sdValue">—</div>
+        <div class="sd-note" id="sdNote"></div>
+      </div>
+      <div class="ship-hint reveal">اضغط على نقاط السفينة لعرض بياناتها</div>
+    </div>
+  </section>
+
+  <section class="ll-scene ll-route">
+    <div class="section-inner">
+      <h2 class="reveal">الرحلة</h2>
+      <div class="route-map reveal" id="routeMap">
+        <div class="route-points">
+          <span class="route-point">Ziguinchor</span>
+          <span class="route-point">Karabane</span>
+        </div>
+        <svg class="route-svg" viewBox="0 0 500 70" preserveAspectRatio="none">
+          <path class="route-line" d="M20,35 C150,10 250,60 480,35" />
+        </svg>
+        <div class="route-wave">🌊</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ll-scene ll-risks">
+    <div class="section-inner">
+      <h2 class="reveal">عوامل الخطر</h2>
+      <div class="risk-grid" id="riskGrid">
+        <div class="risk-card" data-key="load"><div class="rc-icon">📦</div><div class="rc-title">الحمولة</div></div>
+        <div class="risk-card" data-key="safety"><div class="rc-icon">🦺</div><div class="rc-title">السلامة</div></div>
+        <div class="risk-card" data-key="engine"><div class="rc-icon">⚙️</div><div class="rc-title">المحرك</div></div>
+        <div class="risk-card" data-key="cert"><div class="rc-icon">📋</div><div class="rc-title">الشهادة</div></div>
+        <div class="risk-card" data-key="weather"><div class="rc-icon">🌧️</div><div class="rc-title">الطقس</div></div>
+        <div class="risk-card" data-key="zone"><div class="rc-icon">🧭</div><div class="rc-title">منطقة الإبحار</div></div>
+        <div class="risk-detail" id="riskDetail">
+          <div class="rd-q">ماذا نعرف؟</div>
+          <div class="rd-a" id="riskAnswer">—</div>
+          <div class="rd-q">ما مصدر هذه المعلومة؟</div>
+          <div class="rd-a" id="riskSource" style="margin-bottom:0;">[يستكمل عند التحقق]</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ll-scene ll-storm">
+    <div class="storm-waves">
+      <svg class="sw1" viewBox="0 0 1600 220" preserveAspectRatio="none"><path d="M0,110 C 200,180 400,40 600,100 C 800,160 1000,20 1200,90 C 1400,150 1500,110 1600,120 L1600,220 L0,220 Z" fill="#2E6E82"/></svg>
+      <svg class="sw2" viewBox="0 0 1600 220" preserveAspectRatio="none"><path d="M0,140 C 220,80 420,190 640,120 C 860,60 1080,170 1300,110 C 1450,80 1550,120 1600,130 L1600,220 L0,220 Z" fill="#4E8EA2"/></svg>
+    </div>
+    <p class="reveal">ومع اشتداد الظروف البحرية، بدأت السفينة تفقد استقرارها.</p>
+  </section>
+
+  <section class="ll-scene ll-final" id="llFinal">
+    <div class="final-ship">🚢</div>
+    <div class="final-text">أقل من خمس دقائق</div>
+  </section>
+
+  <section class="ll-scene ll-silence" id="llSilence">
+    <div class="silence-line1">انتهت الرحلة.<br>لكن القصة لم تنته.</div>
+    <div class="silence-line2">64 ناجيا وفق الرقم الرسمي المتداول، مع ورود 65 في بعض الوثائق المبكرة.</div>
+    <div class="silence-links">
+      <a class="btn btn-ghost" href="#/allathina-baqu" data-route="/allathina-baqu">ماذا حدث للذين بقوا؟ ←</a>
+      <a class="btn btn-ghost" href="#/ayna-aladala" data-route="/ayna-aladala">ماذا حدث للمسؤولية؟ ←</a>
+    </div>
+  </section>
+
+</div>
+
+<div class="page" id="view-ayna-aladala">
+
+  <section class="case-cover">
+    <div class="case-stamp">CASE FILE</div>
+    <h1>بعد الكارثة، بدأت الأسئلة.</h1>
+  </section>
+
+  <section class="case-timeline">
+    <div class="section-inner">
+      <h2 class="reveal">الخط الزمني</h2>
+      <div class="timeline-track reveal" id="timelineTrack">
+        <div class="timeline-node" data-year="2002"><div class="timeline-dot"></div><div class="timeline-year">2002</div></div>
+        <div class="timeline-node" data-year="2003"><div class="timeline-dot"></div><div class="timeline-year">2003</div></div>
+        <div class="timeline-node" data-year="2008"><div class="timeline-dot"></div><div class="timeline-year">2008</div></div>
+        <div class="timeline-node" data-year="2009"><div class="timeline-dot"></div><div class="timeline-year">2009</div></div>
+        <div class="timeline-node" data-year="2014"><div class="timeline-dot"></div><div class="timeline-year">2014</div></div>
+        <div class="timeline-node" data-year="2025"><div class="timeline-dot"></div><div class="timeline-year">2025</div></div>
+      </div>
+      <div class="timeline-detail" id="timelineDetail">
+        <div class="td-row"><div class="td-label">التاريخ</div><div class="td-value" id="tdDate">—</div></div>
+        <div class="td-row"><div class="td-label">ماذا حدث؟</div><div class="td-value" id="tdWhat">[يستكمل بعد التحقق من المصادر]</div></div>
+        <div class="td-row"><div class="td-label">الجهة</div><div class="td-value" id="tdEntity">[يستكمل]</div></div>
+        <div class="td-row"><div class="td-label">الوثيقة</div><div class="td-value" id="tdDoc">[يستكمل]</div></div>
+        <div class="td-row"><div class="td-label">المصدر</div><div class="td-value" id="tdSource">[يستكمل]</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tracks-section">
+    <div class="section-inner">
+      <h2 class="reveal">ثلاثة مسارات</h2>
+      <div class="tracks-grid">
+        <div class="track-col reveal">
+          <div class="tc-icon">🏛️</div>
+          <div class="tc-title">الدولة</div>
+          <div class="tc-sub">المواقف الرسمية</div>
+          <ul><li>اعتراف الرئيس واد بمسؤولية الدولة (2 أكتوبر 2002)</li><li>إغلاق الملف الجنائي محليا وتحميل المسؤولية لقائد السفينة المتوفى وحده (2003)</li></ul>
+        </div>
+        <div class="track-col reveal">
+          <div class="tc-icon">⚖️</div>
+          <div class="tc-title">القضاء</div>
+          <div class="tc-sub">المسار القضائي</div>
+          <ul><li>لائحة اتهام دولية فرنسية بحق 9 مسؤولين (2008)، ألغيت بحجة الحصانة القضائية (2009)</li><li>قرار "لا وجه لإقامة الدعوى" رغم إقرار المدعي بوجود أدلة كافية (2014)</li></ul>
+        </div>
+        <div class="track-col reveal">
+          <div class="tc-icon">👨‍👩‍👧‍👦</div>
+          <div class="tc-title">العائلات</div>
+          <div class="tc-sub">المطالبات والأسئلة</div>
+          <ul><li>رفض بعض الأسر تعويضا ماليا مشروطا بالتنازل عن حق الملاحقة القضائية</li><li>استمرار المطالبة بإعادة فتح الملف حتى الذكرى الـ23 (2025)</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="docs-section">
+    <div class="section-inner">
+      <h2 class="reveal">افتح الوثيقة</h2>
+      <p class="reveal">وثائق من ملف القضية — اضغط لعرض التفاصيل</p>
+      <div class="docs-grid">
+        <div class="doc-card reveal" data-doc="1"><div class="dc-icon">📄</div><div class="dc-title">وثيقة 01</div></div>
+        <div class="doc-card reveal" data-doc="2"><div class="dc-icon">📄</div><div class="dc-title">وثيقة 02</div></div>
+        <div class="doc-card reveal" data-doc="3"><div class="dc-icon">📄</div><div class="dc-title">وثيقة 03</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="case-ending">
+    <div class="section-inner">
+      <p class="ce-body reveal">انتهت مسارات قضائية دون محاكمة، بينما واصلت عائلات الضحايا طرح أسئلة ومطالبات بإعادة النظر في القضية.</p>
+      <p class="ce-q reveal">هل يمكن أن تغلق قضية دون أن تغلق الذاكرة؟</p>
+      <a class="btn btn-primary reveal" href="#/aththakira" data-route="/aththakira">انتقل إلى الذاكرة ←</a>
+    </div>
+  </section>
+
+</div>
+
+<div class="doc-modal" id="docModal" role="dialog" aria-modal="true" aria-label="تفاصيل الوثيقة">
+  <div class="doc-modal-box">
+    <button class="doc-modal-close" id="docModalClose" type="button" aria-label="إغلاق">✕</button>
+    <div class="doc-preview">صورة الوثيقة</div>
+    <div class="dm-q">ماذا نرى فيها؟</div>
+    <div class="dm-a" id="dmSee">[وصف محتوى الوثيقة يستكمل بعد التحقق]</div>
+    <div class="dm-q">ما أهميتها؟</div>
+    <div class="dm-a" id="dmWhy">[يستكمل]</div>
+    <div class="dm-q">المصدر</div>
+    <div class="dm-a" id="dmSrc">[يستكمل]</div>
+    <a class="src-link" id="dmLink" href="#" target="_blank" rel="noopener">🔗 فتح المصدر الأصلي</a>
+  </div>
+</div>
+
+<div class="page" id="view-allathina-baqu">
+
+  <section class="baqu-cover">
+    <h1>الذين بقوا</h1>
+    <div class="baqu-sub">1,863 إنسانا، لا رقما فقط.</div>
+  </section>
+
+  <section class="portraits-section">
+    <div class="section-inner">
+      <div class="survivor-eyebrow">شهادات موثقة</div>
+      <h2 class="reveal">الناجون: أشخاص خلف الرقم</h2>
+      <p class="survivor-intro reveal">ثماني حكايات من شهادات منشورة عن ليلة جولا. افتح كل بطاقة لقراءة موجزها والرجوع إلى المصدر الأصلي.</p>
+      <div class="survivor-caveat reveal"><strong>تنبيه توثيقي:</strong> الرقم الرسمي المتداول هو 64 ناجيا، مع وجود وثائق مبكرة أشارت إلى 65. نستخدم هنا صيغة «الناجون الـ64 وفق الرقم الرسمي المتداول» ولا نقدم الرقم بوصفه خاليا من الخلاف الأرشيفي.</div>
+      <div class="survivor-tools">
+        <label for="survivorSearch">ابحث في الشهادات</label>
+        <input id="survivorSearch" type="search" placeholder="الاسم أو كلمة من القصة…" autocomplete="off">
+        <div class="survivor-count" id="survivorCount" aria-live="polite"></div>
+      </div>
+      <div class="survivor-grid" id="survivorGrid"></div>
+      <p class="survivor-rights">لم نضع صورا شخصية في هذه النسخة؛ بعض المواد المصورة مرتبطة بحقوق نشر أو تحتاج إلى تحقق من الهوية والإذن. تضاف الصور فقط بعد مراجعة مصدرها وترخيصها.</p>
+      <p class="survivor-closing">لا نعرف من المصادر العامة أسماء جميع الناجين. لكن هذه الشهادات تذكرنا بأن النجاة لم تكن نهاية الكارثة: عاد بعضهم إلى العمل والتعليم، وكتب بعضهم شهادته، فيما ظل آخرون يحملون آثار تلك الليلة في النوم والذاكرة والخوف.</p>
+    </div>
+  </section>
+
+  <section class="seats-section">
+    <div class="section-inner">
+      <h2 class="reveal">150 مقعدا فارغا</h2>
+      <div class="seats-note reveal">⚠️ 150 تلميذا من ثانوية جينابو (Lycée Djignabo) في زيغنشور، وفق مديرة الثانوية نوها سيس — VOA Afrique, 2022؛ Wiley, 2012. الشبكة أدناه تمثيل رمزي لا إحصاء دقيق</div>
+      <div class="seats-grid" id="seatsGrid"></div>
+      <p class="seats-line reveal">وراء كل مقعد قصة.</p>
+    </div>
+  </section>
+
+  <section class="baqu-continue">
+    <div class="section-inner">
+      <p class="reveal">ماذا بقي من كل هذا؟</p>
+      <a class="btn btn-primary reveal" href="#/aththakira" data-route="/aththakira">انتقل إلى الذاكرة ←</a>
+    </div>
+  </section>
+
+</div>
+
+<div class="page" id="view-aththakira">
+
+  <section class="mem-cover">
+    <div class="mem-icon">🕯️</div>
+    <h1>الذاكرة</h1>
+    <div class="mem-q">ماذا يبقى من الكارثة عندما ينتهي الخبر؟</div>
+  </section>
+
+  <section class="mem-section">
+    <div class="section-inner">
+      <div class="mem-eyebrow reveal">01</div>
+      <h2 class="mem-h2 reveal">من الخبر إلى الذاكرة</h2>
+      <div class="vtimeline reveal">
+        <div class="vt-item"><div class="vt-year">2002</div><div class="vt-label">الكارثة</div></div>
+        <div class="vt-item"><div class="vt-year">2003</div><div class="vt-label">المسؤولية والقضاء</div></div>
+        <div class="vt-item"><div class="vt-year">2012</div><div class="vt-label">الذكرى</div></div>
+        <div class="vt-item"><div class="vt-year">2022</div><div class="vt-label">الأرشيف / الصور</div></div>
+        <div class="vt-item"><div class="vt-year">2024</div><div class="vt-label">المتحف</div></div>
+        <div class="vt-item"><div class="vt-year">2025</div><div class="vt-label">مطالبات العائلات</div></div>
+        <div class="vt-item"><div class="vt-year">2026–2027</div><div class="vt-label">الذاكرة مستمرة</div></div>
+      </div>
+      <div class="vt-note reveal">⚠️ سيتم تحديث الأحداث الأخيرة وفق ما يثبت فعليا وقت النشر</div>
+    </div>
+  </section>
+
+  <section class="mem-section alt">
+    <div class="section-inner">
+      <div class="mem-eyebrow reveal">02 · 📰</div>
+      <h2 class="mem-h2 reveal">الصحف تتذكر</h2>
+      <div class="news-jump reveal" id="newsJump"></div>
+      <div class="news-wall" id="newsWall"></div>
+    </div>
+  </section>
+
+  <section class="mem-section dark">
+    <div class="section-inner">
+      <div class="mem-eyebrow reveal">03 · 🎧</div>
+      <h2 class="mem-h2 reveal">صوت لو جولا</h2>
+      <div class="audio-table reveal" id="audioTable"></div>
+    </div>
+  </section>
+
+  <section class="mem-section">
+    <div class="section-inner">
+      <div class="mem-eyebrow reveal">04 · 🎥</div>
+      <h2 class="mem-h2 reveal">لو جولا على الشاشة</h2>
+      <div class="channels-grid" id="channelsGrid"></div>
+    </div>
+  </section>
+
+  <section class="mem-section alt">
+    <div class="section-inner">
+      <div class="mem-eyebrow reveal">05 · 🔀</div>
+      <h2 class="mem-h2 reveal">قصة واحدة… روايات مختلفة</h2>
+      <p class="compare-intro reveal">تتبدل زاوية رواية كارثة جولا باختلاف موقع المؤسسة الإعلامية وجمهورها: في التغطية السنغالية تبدو مأساة وطنية مستمرة وأسئلة مساءلة، بينما تميل التغطية العالمية إلى إبراز حجم الكارثة وأرقامها. هذا تلخيص تحليلي للمقارنة المرفقة، وليس حكما ينطبق على كل مادة أو مؤسسة.</p>
+      <div class="compare-split">
+        <article class="compare-col sn reveal">
+          <div class="cc-flag" aria-hidden="true">🇸🇳</div>
+          <h3 class="cc-title">التغطية السنغالية المحلية<br><span>«الجرح الوطني والمساءلة»</span></h3>
+          <ul>
+            <li><strong>الشهادات والضحايا:</strong> حضور قصص الناجين والعائلات والنبرة العاطفية، بدل الاكتفاء بالأرقام.</li>
+            <li><strong>المساءلة:</strong> سؤال «من المسؤول؟» والمطالبة بانتشال الحطام وإعادة تحريك المحاكمات المتوقفة.</li>
+            <li><strong>البعد الإقليمي:</strong> ربط الكارثة بتهميش إقليم كازامانس والنقاش حول الوحدة الوطنية.</li>
+            <li><strong>استمرارية التغطية:</strong> متابعة الذكرى وقضايا الأيتام والتعويضات المادية والمعنوية على مدار العام.</li>
+          </ul>
+          <div class="compare-audience"><strong>الجمهور المحوري</strong><br>المجتمع السنغالي، عائلات الضحايا والناجون.</div>
+        </article>
+        <article class="compare-col global reveal">
+          <div class="cc-flag" aria-hidden="true">🌍</div>
+          <h3 class="cc-title">التغطية العالمية<br><span>«حجم الكارثة والنسيان السريع»</span></h3>
+          <ul>
+            <li><strong>الإطار السردي:</strong> استخدام وصف «تيتانيك أفريقيا» لتقريب حجم الكارثة، وأحيانا وضعها ضمن خطاب الإهمال وضعف البنية التحتية.</li>
+            <li><strong>الأرقام والمقارنات:</strong> إبراز حجم الخسائر ووصفها بوصفها من أكبر كوارث البحر في زمن السلم، مع مساحة أقل للتفاصيل الفردية.</li>
+            <li><strong>التغطية القانونية الفرنسية:</strong> تركيز خاص على الضحايا الفرنسيين الـ18 والصراع القضائي بين باريس وداكار، وما يثيره من أسئلة التضامن والعدالة.</li>
+            <li><strong>استمرارية التغطية:</strong> اهتمام يتجدد غالبا في الذكريات السنوية، ثم يتراجع في الفترات الواقعة بينها.</li>
+          </ul>
+          <div class="compare-audience"><strong>الجمهور المحوري</strong><br>الرأي العام الدولي، غالبا عبر زاوية الخبر والمقارنة الإحصائية.</div>
+        </article>
+      </div>
+
+      <div class="compare-table-wrap reveal" role="region" aria-label="جدول مقارنة بين التغطيتين" tabindex="0">
+        <table class="compare-table">
+          <caption>ملخص محاور المقارنة</caption>
+          <thead><tr><th scope="col">وجه المقارنة</th><th scope="col">التغطية السنغالية المحلية</th><th scope="col">التغطية العالمية</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">محور التركيز</th><td>الضحايا، العائلات، العدالة، والوحدة الوطنية.</td><td>حجم الكارثة، الإحصاءات، وأسباب الحادث.</td></tr>
+            <tr><th scope="row">اللغة والمستهدف</th><td>لغة عاطفية وتضامنية ومطالبة بالحقوق؛ أقرب إلى المجتمع السنغالي وأسر الضحايا.</td><td>لغة وصفية وتحليلية، وأحيانا «استشراقية» وفق التحليل؛ موجهة إلى جمهور دولي.</td></tr>
+            <tr><th scope="row">الاستمرارية</th><td>تغطية متواصلة وذاكرة وطنية سنوية.</td><td>تغطية محدودة أو موسمية، غالبا حول الذكرى السنوية.</td></tr>
+            <tr><th scope="row">المسؤولية</th><td>توجيه أصابع الاتهام إلى المسؤولين المحليين والمطالبة بالمحاسبة.</td><td>تفسير الكارثة أحيانا بضعف البنية التحتية والإهمال في أفريقيا.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="compare-trauma reveal">
+        <div class="ct-label">الخلاصة — «تراكم المعاناة»</div>
+        <p>وفق خلاصة المقارنة، لم تبق جولا في السنغال حدثا منتهيا؛ بل تحولت إلى جرح وطني تتجدد أسئلته مع غياب الإجابات والعدالة. أما في أجزاء من التغطية العالمية، فقد تظهر الكارثة كخبر إحصائي يعود في الذكريات ثم يخفت. هذه الفجوة في الاستمرارية تترك سؤالا مفتوحا عن تفاوت الاهتمام الإعلامي بالكوارث بحسب موقعها الجغرافي.</p>
+      </div>
+      <p class="compare-source-note">ملاحظة تحريرية: هذا القسم يلخص ملف المقارنة المرفق. يستحسن عند النشر النهائي إسناد كل محور إلى أمثلة محددة من مواد صحفية سنغالية وعالمية، وعدم تعميمه على جميع المؤسسات.</p>
+    </div>
+  </section>
+
+  <section class="mem-section dark">
+    <div class="section-inner">
+      <div class="mem-eyebrow reveal">06 · 🏛️</div>
+      <div class="museum-hero reveal">صورة كبيرة — متحف لو جولا</div>
+      <div class="museum-title reveal">المتحف التذكاري الوطني "لو جولا"</div>
+      <p class="museum-sub reveal">افتتح في حي إيسكال (Écale) على ضفاف نهر كازامانس بزيغنشور، يوم 16 يناير 2024 على يد رئيس الوزراء أمادو با. مبنى من 4 طوابق يضم متحفا ومساحة للتأمل، إضافة إلى فضاء بمساحة 700 م² خصص لعرض مروحتي السفينة. حمل اسم "Mémorial contre l'oubli" (نصب ضد النسيان).</p>
+      <div class="vt-note reveal" style="margin-top:-30px; margin-bottom:40px;">المصدر: وزارة الثقافة والتراث التاريخي السنغالية؛ Lequotidien, 2024</div>
+      <div class="museum-grid">
+        <div class="museum-shot reveal">صورة من الداخل 01</div>
+        <div class="museum-shot reveal">صورة من الداخل 02</div>
+        <div class="museum-shot reveal">صورة من الداخل 03</div>
+      </div>
+      <p style="text-align:center; margin-bottom:44px; display:flex; gap:22px; justify-content:center; flex-wrap:wrap;">
+        <a class="src-link" href="https://www.gettyimages.com/editorial-images/news/event/26th-september-2002-senegalese-ferry-le-joola-capsizes-killing-over-1800-people/776251438" target="_blank" rel="noopener">🔗 أرشيف صور Getty التحريرية (يتطلب ترخيص للنشر)</a>
+        <a class="src-link" href="https://www.bbc.com/news/world-africa-19717929" target="_blank" rel="noopener">🔗 صور AFP عبر BBC</a>
+      </p>
+      <div class="museum-qa">
+        <div class="reveal"><div class="mq-q">شهادة</div><div class="mq-a">[شهادة من زائر أو عائلة ناج تستكمل بعد المقابلة الميدانية في المتحف]</div></div>
+        <div class="reveal"><div class="mq-q">ماذا يعرض؟</div><div class="mq-a">مروحتا السفينة، ومساحة للتأمل وإحياء ذكرى الضحايا؛ تفاصيل المعروضات الكاملة تستكمل بعد الزيارة الميدانية.</div></div>
+        <div class="reveal"><div class="mq-q">ماذا يعني للعائلات؟</div><div class="mq-a">كان إنشاء المتحف مطلبا قديما لجمعيات عائلات الضحايا منذ 2003؛ ورغم ذلك ما زالت الجمعيات تطالب أيضا برفع هيكل السفينة من قاع البحر وبمحاسبة قضائية لم تتحقق بعد.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="grand-ending" id="grandEnding">
+    <div class="ge-waves">
+      <svg viewBox="0 0 1600 220" preserveAspectRatio="none"><path d="M0,110 C 200,180 400,40 600,100 C 800,160 1000,20 1200,90 C 1400,150 1500,110 1600,120 L1600,220 L0,220 Z" fill="#2E6E82"/></svg>
+    </div>
+    <p class="ge-line1">مرت سنوات على الغرق.<br>لكن البحر ما زال يحمل القصة.</p>
+    <p class="ge-q">ماذا لم ينس؟</p>
+    <div class="ge-brand">لو جولا | ذاكرة لا تغرق</div>
+    <a class="btn btn-ghost ge-back" href="#/" data-route="/">← العودة إلى البداية</a>
+  </section>
+
+</div>
+
+<div class="page" id="view-an-al-mashroe">
+
+  <section class="case-cover">
+    <div class="case-stamp" style="border-color: var(--sea); color: var(--sea);">PROJECT BRIEF</div>
+    <h1>عن المشروع</h1>
+  </section>
+
+  <section class="mem-section">
+    <div class="section-inner">
+      <div class="mem-eyebrow reveal">ملخص المشروع</div>
+      <h2 class="mem-h2 reveal">جولا: الغرق الثاني</h2>
+      <div class="reveal" style="text-align:center; margin-bottom:40px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap; font-size:13px; color:var(--sea); font-weight:600;">
+        <span>فيلم وثائقي تفسيري</span><span style="opacity:.4;">·</span>
+        <span>المدة: 25 دقيقة</span><span style="opacity:.4;">·</span>
+        <span>تصوير ميداني في السنغال (زيغنشور، داكار، يين)</span>
+      </div>
+      <p style="max-width:760px; margin:0 auto 34px; font-size:15px; line-height:1.9; color:var(--charcoal); text-align:right;">
+        في ليلة 26 سبتمبر 2002، غرقت العبارة الحكومية السنغالية «جولا» قبالة سواحل غامبيا في أقل من خمس دقائق، وأسفرت الكارثة عن وفاة 1,863 شخصا. ويتداول رسميا أن عدد الناجين بلغ 64، مع ورود 65 في بعض الوثائق المبكرة. كانت السفينة تحمل أضعاف طاقتها الاستيعابية، وتفتقر إلى رخصة إبحار سارية، ولم تفض التحقيقات إلى محاسبة المسؤولين حتى اليوم.
+      </p>
+      <p style="max-width:760px; margin:0 auto; font-size:15px; line-height:1.9; color:var(--charcoal); text-align:right;">
+        مرت أكثر من عشرين عاما، والجرح لا يزال مفتوحا؛ لا تزال العائلات تطالب بالعدالة، والهيكل الغارق لا يزال في قاع البحر يحتفظ بجثث لم تستخرج بعد. ومتحف الذاكرة الذي افتتح عام 2024 في زيغنشور لا يكفي وحده، لأن المحاسبة هي الأساس لتحقيق العدالة.
+      </p>
+      <div class="reveal" style="max-width:700px; margin:44px auto 0; padding:26px 30px; background:var(--sand); border-radius:2px; text-align:center;">
+        <div style="font-size:12.5px; color:var(--navy-deep); opacity:.65; margin-bottom:8px;">السؤال المحوري</div>
+        <div style="font-size:16px; font-weight:600; color:var(--navy-deep); line-height:1.7;">كيف تحولت كارثة جولا من حادث بحري قابل للتفسير إلى قضية مستمرة من غياب المساءلة، وما العوامل التي حالت دون محاسبة المسؤولين عنها؟</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mem-section dark">
+    <div class="section-inner">
+      <div class="mem-eyebrow reveal">جدول زمني</div>
+      <h2 class="mem-h2 reveal">خطة الإنتاج — 13 أسبوعا</h2>
+      <div id="prodTimeline" style="max-width:820px; margin:0 auto;"></div>
+    </div>
+  </section>
+
+  <section class="mem-section">
+    <div class="section-inner">
+      <div class="mem-eyebrow reveal">أرشيف المصادر</div>
+      <h2 class="mem-h2 reveal">المراجع والمواد الأصلية</h2>
+      <p class="refs-intro">ابحث في المراجع، صفها حسب النوع، وافتح كل بطاقة لعرض بياناتها ورابط المصدر عندما يكون متاحا.</p>
+      <div class="refs-toolbar">
+        <label for="refsSearch">البحث في المراجع</label>
+        <input id="refsSearch" type="search" placeholder="عنوان، جهة، سنة، أو كلمة مفتاحية…" autocomplete="off">
+        <div class="refs-filters" role="group" aria-label="تصفية المراجع">
+          <button type="button" class="ref-filter active" data-filter="all">الكل</button>
+          <button type="button" class="ref-filter" data-filter="press">صحافة</button>
+          <button type="button" class="ref-filter" data-filter="academic">دراسات</button>
+          <button type="button" class="ref-filter" data-filter="legal">قانون ووثائق</button>
+          <button type="button" class="ref-filter" data-filter="memory">ذاكرة وشهادات</button>
+        </div>
+        <div id="refsCount" class="refs-count" aria-live="polite"></div>
+      </div>
+      <div id="refsList" class="refs-list"></div>
+    </div>
+  </section>
+  <section class="mem-section alt contact-section" id="contact">
+    <div class="section-inner">
+      <div class="mem-eyebrow reveal">تواصل</div>
+      <h2 class="mem-h2 reveal">للاستفسارات أو مشاركة مادة أرشيفية</h2>
+      <p class="contact-copy">للتواصل بشأن مشروع التخرج، أو المصادر، أو إضافة شهادة موثقة إلى الأرشيف:</p>
+      <a class="contact-email" href="mailto:lotusdiarriyatu@gmail.com">lotusdiarriyatu@gmail.com</a>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  const routeTitles = {};
+
+  const container = document.body;
+  Object.keys(routeTitles).forEach(slug => {
+    const r = routeTitles[slug];
+    const div = document.createElement('div');
+    div.className = 'page';
+    div.id = 'view-' + slug;
+    div.innerHTML = `
+      <div class="stub-page">
+        <div class="stub-icon">${r.icon}</div>
+        <h1>${r.title}</h1>
+        <p>${r.sub}</p>
+        <a class="btn btn-ghost" href="#/" data-route="/">← العودة إلى الرئيسية</a>
+      </div>`;
+    container.appendChild(div);
+  });
+
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  const navToggle = document.querySelector('.nav-toggle');
+  const navLinks = document.getElementById('navLinks');
+
+  function closeMobileNav() {
+    nav.classList.remove('nav-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.setAttribute('aria-label', 'فتح القائمة');
+  }
+
+  navToggle.addEventListener('click', () => {
+    const isOpen = nav.classList.toggle('nav-open');
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+    navToggle.setAttribute('aria-label', isOpen ? 'إغلاق القائمة' : 'فتح القائمة');
+  });
+
+  navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMobileNav));
+
+  function router() {
+    const rawHash = location.hash.slice(1);
+    const isRoute = rawHash.startsWith('/');
+    const route = isRoute ? rawHash : '/';
+    const anchorId = !isRoute && rawHash ? decodeURIComponent(rawHash) : '';
+    const slug = route === '/' ? 'home' : route.slice(1);
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById('view-' + slug) || document.getElementById('view-home');
+    target.classList.add('active');
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.style.opacity = a.dataset.route === route ? '1' : '';
+    });
+    closeMobileNav();
+    requestAnimationFrame(() => {
+      const anchor = anchorId && document.getElementById(anchorId);
+      if (anchor && target.contains(anchor)) anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      else window.scrollTo(0, 0);
+    });
+  }
+  window.addEventListener('hashchange', router);
+  router();
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeMobileNav();
+      document.querySelectorAll('.doc-modal.active').forEach(modal => modal.classList.remove('active'));
+    }
+  });
+
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  /* ---- Reveal on scroll ---- */
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('in-view');
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.reveal, .route-map, .ll-final, .ll-silence').forEach(el => revealObserver.observe(el));
+
+  /* ---- Ship hotspots ---- */
+  const shipData = {
+    length: { label: 'الطول', value: '79.5 م', note: 'Maritimafrica, 2022' },
+    width: { label: 'العرض', value: '12 م', note: 'Maritimafrica, 2022' },
+    capacity: { label: 'السعة التصميمية', value: '536 راكبا', note: 'إضافة إلى 44 فردا من الطاقم و35 سيارة — Maritimafrica, 2022' }
+  };
+  const shipDetail = document.getElementById('shipDetail');
+  document.querySelectorAll('.hotspot').forEach(dot => {
+    dot.addEventListener('click', () => {
+      document.querySelectorAll('.hotspot').forEach(d => d.classList.remove('active'));
+      dot.classList.add('active');
+      const d = shipData[dot.dataset.key];
+      document.getElementById('sdLabel').textContent = d.label;
+      document.getElementById('sdValue').textContent = d.value;
+      document.getElementById('sdNote').textContent = d.note;
+      shipDetail.classList.add('active');
+    });
+  });
+
+  /* ---- Risk factor cards ---- */
+  const riskData = {
+    load: { a: 'تجاوز عدد الركاب الفعلي 1,928 شخصا وفق السجلات — أكثر من ثلاثة أضعاف الطاقة الاستيعابية الرسمية (536 راكبا). لم يكن التحميل الزائد استثناء، بل ممارسة شائعة ومعروفة.', s: 'Maritimafrica, 2022; Wiley, 2012' },
+    safety: { a: 'كانت سترات النجاة مخزنة في أماكن يصعب الوصول إليها في حالات الطوارئ، بحسب ما كشفته التحقيقات اللاحقة.', s: 'الورقة البحثية للمشروع' },
+    engine: { a: 'كشفت التحقيقات أن محركا واحدا فقط من أصل اثنين كان يعمل بكفاءة وقت الكارثة — فشل تقني خطير في سفينة مصممة للعمل بمحركين.', s: 'Maritimafrica, 2022' },
+    cert: { a: 'كانت شهادة الصلاحية الصادرة عن مؤسسة Bureau Veritas مؤقتة وقد انتهت صلاحيتها، ما يعني أن السفينة كانت تبحر دون رخصة إبحار سارية.', s: 'Maritimafrica, 2022' },
+    weather: { a: 'لم يتشاور الطاقم مع الأرصاد الجوية قبل الإقلاع رغم وجود تقارير عن أحوال جوية متقلبة، ثم دخلت السفينة منطقة عاصفة قبالة سواحل غامبيا بعد نحو ساعة من آخر اتصال بمركز السلامة البحرية.', s: 'The New Humanitarian, 2002' },
+    zone: { a: 'أبحرت السفينة خارج النطاق الجغرافي المسموح لها بالإبحار فيه؛ كانت مصممة أصلا للإبحار في المياه الساحلية المحمية، لا في المياه المفتوحة.', s: 'Maritimafrica, 2022' }
+  };
+  const riskGrid = document.getElementById('riskGrid');
+  const riskDetail = document.getElementById('riskDetail');
+  const riskCardObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('in-view'), i * 90);
+        riskCardObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.risk-card').forEach(card => riskCardObserver.observe(card));
+
+  riskGrid.querySelectorAll('.risk-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const wasOpen = card.classList.contains('open');
+      document.querySelectorAll('.risk-card').forEach(c => c.classList.remove('open'));
+      if (wasOpen) {
+        riskDetail.classList.remove('active');
+        return;
+      }
+      card.classList.add('open');
+      document.getElementById('riskAnswer').textContent = riskData[card.dataset.key].a;
+      document.getElementById('riskSource').textContent = riskData[card.dataset.key].s;
+      card.insertAdjacentElement('afterend', riskDetail);
+      riskDetail.classList.add('active');
+    });
+  });
+
+  /* ---- Case file: timeline ---- */
+  const caseTimelineData = {
+    '2002': { what: 'اعترف الرئيس السنغالي عبد الله واد في خطابه بتاريخ 2 أكتوبر 2002 بأن الدولة تتحمل المسؤولية، وذكر أن السفينة كانت مصممة للبحيرات لا للبحر المفتوح. وفي 4 نوفمبر 2002 أعفيت رئيسة الوزراء مام ماديور بوي وكافة حكومتها من مناصبهم.', entity: 'الدولة السنغالية', doc: 'خطاب الرئيس واد، 2 أكتوبر 2002', source: 'Wade, 2002' },
+    '2003': { what: 'قرر المدعي العام في داكار إغلاق الملف الجنائي نهائيا في 7 أغسطس 2003، محملا المسؤولية الكاملة لقائد السفينة المتوفى عيسى ديارا باعتباره المسؤول الوحيد.', entity: 'القضاء السنغالي', doc: 'قرار إغلاق الملف الجنائي', source: 'The New Humanitarian, 2003' },
+    '2008': { what: 'بعد خمس سنوات من التحقيق الذي فتح في 1 أبريل 2003، أصدر القاضي الفرنسي جان-ويلفريد نويل في 12 سبتمبر 2008 لائحة اتهام دولية بحق تسعة مسؤولين سنغاليين، من بينهم رئيسة الوزراء السابقة ووزير القوات المسلحة آنذاك.', entity: 'القضاء الفرنسي', doc: 'لائحة الاتهام الدولية', source: 'The New Humanitarian, 2003' },
+    '2009': { what: 'ألغت غرفة التحقيق في محكمة استئناف باريس مذكرات الاعتقال التسع في 16 يونيو 2009، استنادا إلى مبدأ "الحصانة القضائية" الذي يتمتع به المسؤولون الحكوميون الأجانب عن أفعالهم الرسمية.', entity: 'محكمة استئناف باريس', doc: 'قرار إلغاء مذكرات الاعتقال', source: 'CDMO, Université de Nantes, 2022' },
+    '2014': { what: 'انتهى التحقيق الفرنسي بقرار "لا وجه لإقامة الدعوى" (Non-lieu)، رغم اعتراف المدعي الفرنسي نفسه بوجود أدلة كافية ضد سبعة مسؤولين سنغاليين.', entity: 'القضاء الفرنسي', doc: 'قرار Non-lieu', source: 'Jeune Afrique, 2016' },
+    '2025': { what: 'طالبت جمعيات عائلات الضحايا بإعادة فتح الملف القضائي وإجراء تحقيق دولي مستقل، بمناسبة الذكرى الثالثة والعشرين للكارثة.', entity: 'عائلات الضحايا', doc: 'بيانات ومطالبات إعلامية', source: 'Seneweb, 2025' }
+  };
+  const timelineDetail = document.getElementById('timelineDetail');
+  document.querySelectorAll('.timeline-node').forEach(node => {
+    node.addEventListener('click', () => {
+      document.querySelectorAll('.timeline-node').forEach(n => n.classList.remove('active'));
+      node.classList.add('active');
+      const y = node.dataset.year;
+      const d = caseTimelineData[y];
+      document.getElementById('tdDate').textContent = y;
+      document.getElementById('tdWhat').textContent = d.what;
+      document.getElementById('tdEntity').textContent = d.entity;
+      document.getElementById('tdDoc').textContent = d.doc;
+      document.getElementById('tdSource').textContent = d.source;
+      timelineDetail.classList.add('active');
+    });
+  });
+
+  /* ---- Case file: documents ---- */
+  const docData = {
+    '1': { see: 'تقرير رسمي من نحو 97 صفحة صادر في 4 نوفمبر 2002، يغطي حالة السفينة والتحميل والطاقم والطقس وعملية الإنقاذ.', why: 'أول وثيقة تحقيق رسمية سنغالية تربط أسباب الكارثة بإخفاقات تقنية وتشغيلية متعددة المستويات.', src: 'لجنة التحقيق التقنية السنغالية — au-senegal.com', url: 'https://www.au-senegal.com/IMG/pdf/joola_041102.pdf' },
+    '2': { see: 'تقرير خبرة قضائي من 124 صفحة، رفع إلى محكمة إيفري الفرنسية ضمن التحقيق القضائي المفتوح منذ أبريل 2003.', why: 'يوثق تحليل الخبراء لظروف الغرق وتحديد المسؤوليات المحتملة، وشكل أساسا لمذكرات الاعتقال الدولية لاحقا.', src: 'تقرير الخبرة الفرنسي — نسخة منشورة عبر NYT', url: 'https://int.nyt.com/data/documenttools/french-report/14b202f082cd5483/full.pdf' },
+    '3': { see: 'دراسة قانونية أكاديمية تحلل مسار إغلاق الملف الجنائي واستخدام مبدأ الحصانة القضائية لإلغاء المذكرات الفرنسية.', why: 'تطرح تساؤلات مهمة حول قدرة نظام الحصانة الدبلوماسية على حماية مسؤولين حين يتجاوز عدد الضحايا الألف.', src: 'CDMO, Université de Nantes, 2022', url: 'https://cdmo.univ-nantes.fr/medias/fichier/naufrage-du-joola-et-classement-sans-suite_1653654428590-pdf?ID_FICHE=1838662&INLINE=FALSE' }
+  };
+  const docModal = document.getElementById('docModal');
+  document.querySelectorAll('.doc-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const d = docData[card.dataset.doc];
+      document.getElementById('dmSee').textContent = d.see;
+      document.getElementById('dmWhy').textContent = d.why;
+      document.getElementById('dmSrc').textContent = d.src;
+      document.getElementById('dmLink').href = d.url;
+      docModal.classList.add('active');
+    });
+  });
+  document.getElementById('docModalClose').addEventListener('click', () => docModal.classList.remove('active'));
+  docModal.addEventListener('click', (e) => { if (e.target === docModal) docModal.classList.remove('active'); });
+
+  /* ---- Verified survivor stories ---- */
+  const survivorStories = [
+    { name:'مريم ضيوف', latin:'Mariama Diouf', role:'المرأة الوحيدة بين الناجين المعروفين', avatar:'م', story:'كانت على متن العبارة المتجهة من جنوب السنغال إلى داكار، وكانت حاملا في الشهر الرابع. عندما انقلبت السفينة وصلت إلى هيكلها المقلوب وانتظرت الإنقاذ مع ناجين آخرين. وتذكر شهادة منشورة أن مجموعة من الصيادين أنقذت 22 شخصا وكانت مريم المرأة الوحيدة بينهم.', source:'BBC — شهادة/مادة مصورة عن الناجين', url:'https://www.bbc.com/news/av/world-africa-63032421' },
+    { name:'أوسينو ديجيبا', latin:'Ousseynou Djiba', role:'بائع مانغو وقت الرحلة، وأصبح معلما لاحقا', avatar:'أ', story:'كان يبيع المانغو وينقل بضاعته على العبارة. عندما بدأت تميل، قفز من نافذة إلى البحر، ثم تشبث بسترة نجاة عائمة حتى نجا. تحدث لاحقا عن رائحة الوقود والأمواج وفقدان أشخاص كانوا قريبين منه، وربط الكارثة بأخطاء بشرية وتشغيلية.', source:'The New York Times — تقرير عن الناجين (2022)', url:'https://www.nytimes.com/2022/09/25/world/africa/senegal-ferry-joola.html' },
+    { name:'عثمان كيتا', latin:'Ousmane Keita', role:'طالب جغرافيا في السنة الأولى وقت الكارثة', avatar:'ع', story:'كان متجها إلى داكار استعدادا لامتحانات أكتوبر، وكان يعرف جولا من عمله السابق على قوارب نقل البضائع. عندما انقلبت السفينة سبح نحو السطح وسط صراخ الركاب. يذكر التقرير أنه كان واحدا من ستة طلاب فقط نجوا من نحو 450 طالبا على متن العبارة.', source:'The New York Times — تقرير عن الناجين (2022)', url:'https://www.nytimes.com/2022/09/25/world/africa/senegal-ferry-joola.html' },
+    { name:'فيكتور ديجيبا', latin:'Victor Djiba', role:'جندي مكلف بالعمل على العبارة', avatar:'ف', story:'ساعدته معرفته بتخطيط جولا على العثور على طريق للهروب. كان يتشارك مقصورة مع زميل لم ينج، وتحدث بعد الكارثة عن اضطرابات النوم والحاجة إلى أدوية وصعوبة النوم لسنوات.', source:'Times of Malta — شهادة ناج', url:'https://timesofmalta.com/article/Survivors-mark-Africa-s-Titanic-epic.438742' },
+    { name:'باتريس أوفراي', latin:'Patrice Auvray', role:'الناجي الفرنسي الوحيد بحسب المصدر', avatar:'ب', story:'كان مسافرا على جولا مع رفيقته كورين التي فقدها في الكارثة. كتب شهادة بعنوان «Souviens-toi du Joola» بعد عشر سنوات، يروي فيها انقلاب السفينة والليلة التي قضاها فوق هيكلها المقلوب وانتظار المنقذين، وصعوبة العودة إلى الحياة بعد النجاة.', source:'RFI — جولا في الشهادات والأدب', url:'https://www.rfi.fr/fr/afrique/20220926-le-joola-le-naufrage-et-ses-suites-racont%C3%A9s-et-mis-en-perspective-par-la-litt%C3%A9rature' },
+    { name:'لياندر كولي', latin:'Léandre Coly', role:'كان يبلغ 37 عاما عند نشر الشهادة في 2022', avatar:'ل', story:'وصف لحظة الغرق بأنها «رؤية جحيمية» ظلت تطارده في الأحلام. ومع امتلاء السفينة بالماء سبح مبتعدا عنها حتى وصل إلى مجموعة تمسكت بقارب نجاة مطاطي، قبل أن ينقذهم الصيادون.', source:'AFP عبر Ahram Online — تقرير عن الناجين (2022)', url:'https://english.ahram.org.eg/NewsContent/2/10/476673/World/Africa/Senegal-ferry-disaster-relatives-fight-for-justice.aspx' },
+    { name:'لامين كولي', latin:'Lamin Coly', role:'كان متجها إلى داكار بحثا عن فرصة عمل', avatar:'ل', story:'تذكر BBC Pidgin أنه كان الناجي الوحيد من مجموعة قريته المؤلفة من 35 شخصا. بعد انقطاع الكهرباء خرج إلى الخارج ورأى أن العبارة انقلبت؛ وظلت صور الغرق والأصوات التي سمعها حاضرة في ذاكرته بعد سنوات.', source:'BBC Pidgin — شهادة لامين كولي', url:'https://www.bbc.com/pidgin/articles/ce5mj886662o' },
+    { name:'شيخ نيانغ', latin:'Cheikh Niang', role:'عامل تحميل أمتعة ورئيس مجموعة GIE Dann Dolé', avatar:'ش', story:'عمل في تحميل الأمتعة على جولا قرابة عشر سنوات. كان قد اعتاد ميلان العبارة أحيانا، لذلك لم يتوقع أن يتحول الميلان في تلك الليلة إلى كارثة. تحدث عن استمرار أصوات الضحايا في ذاكرته، وعن عودة الخوف عند انقطاع الكهرباء والظلام.', source:'Le Quotidien — مقابلة مع شيخ نيانغ', url:'https://lequotidien.sn/cheikh-niang-rescape-je-perds-la-tete-quand-il-y-a-coupure-delectricite/' }
+  ];
+  const survivorGrid = document.getElementById('survivorGrid');
+  const survivorSearch = document.getElementById('survivorSearch');
+  const survivorCount = document.getElementById('survivorCount');
+  if (survivorGrid) {
+    survivorStories.forEach((person, index) => {
+      const card = document.createElement('details');
+      card.className = 'survivor-card reveal';
+      card.dataset.search = `${person.name} ${person.latin} ${person.role} ${person.story} ${person.source}`.toLocaleLowerCase();
+      const summary = document.createElement('summary');
+      const avatar = document.createElement('span'); avatar.className = 'survivor-avatar'; avatar.textContent = person.avatar; avatar.setAttribute('aria-hidden','true');
+      const identity = document.createElement('span');
+      const name = document.createElement('span'); name.className = 'survivor-name'; name.textContent = `${String(index + 1).padStart(2,'0')} — ${person.name}`;
+      const latin = document.createElement('span'); latin.className = 'survivor-latin'; latin.textContent = person.latin;
+      const role = document.createElement('span'); role.className = 'survivor-role'; role.textContent = person.role;
+      identity.append(name, latin, role);
+      const chevron = document.createElement('span'); chevron.className = 'survivor-chevron'; chevron.textContent = '⌄'; chevron.setAttribute('aria-hidden','true');
+      summary.append(avatar, identity, chevron);
+      const detail = document.createElement('div'); detail.className = 'survivor-detail';
+      const story = document.createElement('p'); story.textContent = person.story;
+      const source = document.createElement('a'); source.className = 'survivor-source'; source.href = person.url; source.target = '_blank'; source.rel = 'noopener noreferrer'; source.textContent = `فتح المصدر: ${person.source} ↗`;
+      const sourceNote = document.createElement('p'); sourceNote.className = 'survivor-source-note'; sourceNote.textContent = 'ملخص عربي للمادة المنشورة؛ يرجى الرجوع إلى المصدر الأصلي للتفاصيل الكاملة.';
+      detail.append(story, source, sourceNote);
+      card.append(summary, detail);
+      survivorGrid.appendChild(card);
+      revealObserver.observe(card);
+    });
+    const filterSurvivors = () => {
+      const query = survivorSearch.value.trim().toLocaleLowerCase();
+      let visible = 0;
+      survivorGrid.querySelectorAll('.survivor-card').forEach(card => {
+        const matches = !query || card.dataset.search.includes(query);
+        card.hidden = !matches;
+        if (matches) visible++;
+      });
+      survivorCount.textContent = `${visible} من ${survivorStories.length} شهادات`;
+    };
+    survivorSearch.addEventListener('input', filterSurvivors);
+    filterSurvivors();
+  }
+
+  /* Les cartes audio restent informatives tant que les enregistrements ne sont pas publiés. */
+
+  /* ---- Allathina baqu: empty seats ---- */
+  const seatsGrid = document.getElementById('seatsGrid');
+  if (seatsGrid) {
+    const total = 50, goneCount = 15;
+    const goneIndices = new Set();
+    while (goneIndices.size < goneCount) goneIndices.add(Math.floor(Math.random() * total));
+    for (let i = 0; i < total; i++) {
+      const seat = document.createElement('div');
+      seat.className = 'seat' + (goneIndices.has(i) ? ' gone' : '');
+      seat.style.transitionDelay = (Math.random() * 0.8) + 's';
+      seatsGrid.appendChild(seat);
+    }
+    const seatsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('in-view'); seatsObserver.unobserve(entry.target); }
+      });
+    }, { threshold: 0.3 });
+    seatsObserver.observe(seatsGrid);
+  }
+
+  /* ---- Aththakira: newspaper wall ---- */
+  const newsItems = [
+    { year: '2002', outlet: 'CNN', headline: 'المئات في عداد المفقودين مع غرق العبارة', src: 'CNN, 27 Sept. 2002', url: 'http://www.cnn.com/2002/WORLD/africa/09/27/senegal.ferry/index.html' },
+    { year: '2002', outlet: 'The New Humanitarian', headline: 'مخاوف من مقتل المئات في كارثة العبارة', src: 'IRIN/TNH, 27 Sept. 2002', url: 'https://www.thenewhumanitarian.org/report/34832/gambia-senegal-hundreds-feared-dead-ferry-disaster' },
+    { year: '2002', outlet: 'إيلاف', headline: 'تغطية عربية مبكرة تنقل حصيلة مؤقتة وشهادة ناج', src: 'إيلاف, 27 Sept. 2002', url: 'https://elaph.com/Web/Archive/1033158931101808000.htm' },
+    { year: '2002', outlet: "L'Orient-Le Jour", headline: 'التحميل الزائد سبب الغرق، والحصيلة تتجاوز الألف', src: "L'Orient-Le Jour, 30 Sept. 2002", url: 'https://www.lorientlejour.com/article/387213/Senegal_-_La_surcharge_du_%253C%253C_Joola_%253E%253E_est_la_cause_de_son_naufrage_Le_bilan_s%2527alourdit_%253A_plus_de_mille_morts_et_disparus.html' },
+    { year: '2010', outlet: 'Jeune Afrique', headline: 'جريمة بلا عقاب: عائلات ترفض التعويض المشروط بالصمت', src: 'Jeune Afrique, 2010', url: 'https://www.jeuneafrique.com/139966/politique/s-n-gal-le-joola-un-crime-sans-ch-timent/' },
+    { year: '2016', outlet: 'Jeune Afrique', headline: 'غرق قضائي: كيف أغلق الملف رغم الأدلة', src: 'Jeune Afrique, 2016', url: 'https://www.jeuneafrique.com/336620/societe/senegal-joola-naufrage-judiciaire/' },
+    { year: '2024', outlet: 'Lequotidien', headline: 'الذكرى الـ22: متحف ضد النسيان', src: 'Lequotidien, 26 Sept. 2024', url: 'https://lequotidien.sn/an-22-du-naufrage-du-joola-diomaye-dans-le-sillage-de-wade-et-macky-l-un-musee-contre-loubli/' },
+    { year: '2025', outlet: 'Seneweb', headline: 'الذكرى الـ23: العائلات تطالب بإعادة فتح الملف', src: 'Seneweb, Sept. 2025', url: 'https://www.seneweb.com/en/news/Societe/joola-23-years-later-families-demand-the-case-be-reopened_n_468408.html' }
+  ];
+  const newsWall = document.getElementById('newsWall');
+  const newsJump = document.getElementById('newsJump');
+  if (newsWall) {
+    const seenYears = new Set();
+    newsItems.forEach((item, i) => {
+      const card = document.createElement('div');
+      card.className = 'news-card';
+      card.id = 'news-' + item.year + '-' + i;
+      card.innerHTML = `
+        <div class="nc-thumb">صورة الصفحة</div>
+        <div class="nc-year">${item.year}</div>
+        <div class="nc-outlet">${item.outlet}</div>
+        <div class="nc-headline">${item.headline}</div>
+        <a class="src-link" href="${item.url}" target="_blank" rel="noopener">🔗 المصدر الأصلي</a>`;
+      newsWall.appendChild(card);
+
+      if (!seenYears.has(item.year)) {
+        seenYears.add(item.year);
+        const btn = document.createElement('button');
+        btn.textContent = item.year;
+        btn.addEventListener('click', () => card.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' }));
+        newsJump.appendChild(btn);
+      }
+    });
+  }
+
+  /* ---- Aththakira: audio library ---- */
+  const audioRows = [
+    { year: '2022', source: 'France Culture — Souvenons-nous du Joola (3 حلقات، 55 د لكل حلقة)', lang: 'الفرنسية', type: 'وثائقي صوتي', url: 'https://www.radiofrance.fr/franceculture/podcasts/serie-souvenons-nous-du-joola' },
+    { year: '2022', source: 'RFI — Vingt ans après, la mémoire du Joola (19:30)', lang: 'الفرنسية', type: 'ريبورتاج', url: 'https://www.rfi.fr/fr/podcasts/grand-reportage/20220926-vingt-ans-apr%C3%A8s-la-m%C3%A9moire-du-joola' },
+    { year: '2016', source: 'WADR — تقرير عن العائلات وانتظار العدالة (SoundCloud, CC BY-NC-SA)', lang: 'الإنجليزية', type: 'تقرير إذاعي', url: 'https://soundcloud.com/westafricademocracyradio/special-report-14-years-on-families-of-senegals-le-joola-ferry-disaster-await-justice' }
+  ];
+  const audioTable = document.getElementById('audioTable');
+  if (audioTable) {
+    audioRows.forEach(r => {
+      const row = document.createElement('div');
+      row.className = 'at-row';
+      row.innerHTML = `
+        <div class="at-year">${r.year}</div>
+        <div class="at-mid">
+          <div class="at-source">${r.source}</div>
+          <div class="at-tags"><span class="at-tag">${r.lang}</span><span class="at-tag">${r.type}</span></div>
+        </div>
+        <a class="at-play" href="${r.url}" target="_blank" rel="noopener">استمع ↗</a>`;
+      audioTable.appendChild(row);
+    });
+  }
+
+  /* ---- Aththakira: channels grid ---- */
+  const channels = [
+    { name: 'INA', meta: 'نشرة France 2، 29 سبتمبر 2002 (37:37)', url: 'https://www.ina.fr/ina-eclaire-actu/video/2114025001/20-heures-le-journal-emission-du-29-septembre-2002' },
+    { name: 'TV5MONDE', meta: 'تحقيق LeMémo (8:08)', url: 'https://information.tv5monde.com/afrique/au-large-du-senegal-en-2002-plus-de-1860-morts-dans-le-naufrage-du-joola-lememo-2528021' },
+    { name: 'BBC News Africa', meta: "Africa's Titanic — وثائقي (44:49)", url: 'https://www.youtube.com/watch?v=QW84OZeXJog' },
+    { name: 'Le Monde', meta: 'تحقيق فيديو ونمذجة ثلاثية الأبعاد، 2022', url: 'https://www.lemonde.fr/afrique/video/2022/09/25/naufrage-du-joola-notre-enquete-video-sur-le-titanic-africain_6143072_3212.html' },
+    { name: 'RTS', meta: 'أرشيف مشار إليه في مصادر أخرى — لم يعثر على رابط عام مؤكد', url: '' }
+  ];
+  const channelsGrid = document.getElementById('channelsGrid');
+  if (channelsGrid) {
+    channels.forEach(ch => {
+      const card = document.createElement('div');
+      card.className = 'channel-card reveal';
+      card.innerHTML = `
+        <div class="ch-thumb">${ch.name}</div>
+        <div class="ch-name">${ch.name}</div>
+        <div class="ch-meta">${ch.meta}</div>
+        ${ch.url ? `<a class="src-link" href="${ch.url}" target="_blank" rel="noopener" style="margin-top:8px;">🔗 مشاهدة</a>` : ''}`;
+      channelsGrid.appendChild(card);
+      revealObserver.observe(card);
+    });
+  }
+
+  /* ---- Aththakira: grand ending ---- */
+  const grandEnding = document.getElementById('grandEnding');
+  if (grandEnding) {
+    const geObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('in-view'); });
+    }, { threshold: 0.3 });
+    geObserver.observe(grandEnding);
+  }
+
+  /* ---- An al-mashroe: production timeline ---- */
+  const prodPhases = [
+    { n: '1', title: 'بحث وتواصل', dur: '4 أسابيع', tasks: 'تحديد الشخصيات، تأكيد الموافقات، تصريح التصوير، مراجعة الأرشيف، إعداد الأسئلة — أنا والمشرفة' },
+    { n: '2', title: 'التصوير الميداني', dur: 'أسبوعان', tasks: 'السفر إلى زيغنشور وداكار ويين: تصوير مقابلات الشخصيات، لقطات ميدانية، زيارة المتحف — أنا ومن يساعدني' },
+    { n: '3', title: 'المراجعة', dur: 'أسبوعان', tasks: 'مراجعة المواد مع المشرفة، الوثائق والأرشيف — أنا والمشرفة' },
+    { n: '4', title: 'المونتاج الأولي', dur: '3 أسابيع', tasks: 'المونتاج الأولي، الترجمة والتعليق، تسجيل الصوت، مراجعة المشرفة وإجراء التعديلات — أنا' },
+    { n: '5', title: 'التسليم', dur: 'أسبوعان', tasks: 'المونتاج النهائي، التقرير النظري والتنفيذي، التسليم — أنا' },
+  ];
+  const prodTimeline = document.getElementById('prodTimeline');
+  if (prodTimeline) {
+    prodPhases.forEach(p => {
+      const row = document.createElement('div');
+      row.className = 'prod-phase reveal';
+      row.innerHTML = `
+        <div class="pp-num">${p.n}</div>
+        <div class="pp-body">
+          <div class="pp-title">المرحلة ${p.n} — ${p.title}</div>
+          <div class="pp-duration">${p.dur}</div>
+          <div class="pp-tasks">${p.tasks}</div>
+        </div>`;
+      prodTimeline.appendChild(row);
+      revealObserver.observe(row);
+    });
+  }
+
+  /* ---- Interactive bibliography ---- */
+  const refs = [
+    {title:'Centre de Droit Maritime et Océanique, Université de Nantes (2022). Naufrage du Joola et classement sans suite.', detail:'دراسة قانونية حول التحقيق القضائي الفرنسي وقرار إغلاق الملف.', type:'legal', label:'قانون', url:'https://cdmo.univ-nantes.fr/medias/fichier/naufrage-du-joola-et-classement-sans-suite_1653654428590-pdf?ID_FICHE=1838662&INLINE=FALSE'},
+    {title:'Jeune Afrique (2010). Sénégal: le « Joola », un crime sans châtiment.', detail:'تغطية صحفية عن مطالب عائلات الضحايا والعدالة.', type:'press', label:'صحافة', url:'https://www.jeuneafrique.com/139966/politique/s-n-gal-le-joola-un-crime-sans-ch-timent/'},
+    {title:'Jeune Afrique (2016). Sénégal: le « Joola », ce naufrage judiciaire.', detail:'تقرير صحفي عن المسار القضائي لقضية جولا.', type:'press', label:'صحافة', url:'https://www.jeuneafrique.com/336620/societe/senegal-joola-naufrage-judiciaire/'},
+    {title:'Le Quotidien (2024). An 22 du naufrage du Joola: un musée contre l’oubli.', detail:'مادة صحفية عن الذاكرة والمتحف في زيغنشور.', type:'memory', label:'ذاكرة', url:'https://lequotidien.sn/an-22-du-naufrage-du-joola-diomaye-dans-le-sillage-de-wade-et-macky-l-un-musee-contre-loubli/'},
+    {title:'Maritimafrica (2022). The ship M/S “JOOLA”: 20 years and nearly 2,000 dead.', detail:'مادة مرجعية عن السفينة وظروف إبحارها؛ يرجى مراجعة بيانات النشر قبل الاقتباس النهائي.', type:'press', label:'صحافة', url:''},
+    {title:'Ministère de la Culture et du Patrimoine historique (Sénégal) (2024). Inauguration du Mémorial du bateau Le Joola à Ziguinchor.', detail:'بيان رسمي حول افتتاح النصب التذكاري.', type:'primary', label:'وثيقة', url:''},
+    {title:'Rothe, D., Muzzatti, S., & Mullins, C. W. (2006). Crime on the high seas: Crimes of globalization and the sinking of the Senegalese Ferry Le Joola. Critical Criminology, 14(2), 159–180.', detail:'دراسة أكاديمية في علم الجريمة حول الكارثة ضمن سياق العولمة.', type:'academic', label:'دراسة', url:''},
+    {title:'Seneweb (2025). Joola, 23 years later: Families demand the case be reopened.', detail:'تغطية لمطالب عائلات الضحايا بإعادة فتح القضية.', type:'press', label:'صحافة', url:'https://www.seneweb.com/en/news/Societe/joola-23-years-later-families-demand-the-case-be-reopened_n_468408.html'},
+    {title:'The New Humanitarian (2002). Report blames army for delay in Joola rescue.', detail:'تغطية صحفية مبكرة عن عملية الإنقاذ.', type:'press', label:'صحافة', url:''},
+    {title:'The New Humanitarian (2003). Families demand justice for Joola ferry deaths.', detail:'تغطية عن مطالب أسر الضحايا بعد الكارثة.', type:'press', label:'صحافة', url:''},
+    {title:'VOA Afrique (2022). Sénégal, 20 ans après le naufrage du Joola: Ziguinchor panse encore ses plaies.', detail:'ريبورتاج عن استمرار آثار الكارثة في زيغنشور.', type:'memory', label:'ذاكرة', url:''},
+    {title:'Wade, A. (2002, 2 octobre). Discours du président de la République du Sénégal sur le naufrage du Joola.', detail:'خطاب رئاسي عقب الكارثة؛ أدرج مرجعا أوليا كما ورد في قائمة المشروع.', type:'primary', label:'وثيقة', url:''},
+    {title:'Wiley, D. (2012). The Joola: The geographical dimensions of Africa’s greatest shipwreck. Focus on Geography, 55(1), 1–9.', detail:'مقال أكاديمي جغرافي عن كارثة جولا.', type:'academic', label:'دراسة', url:''},
+    {title:'BBC (2022). Joola survivors remember Senegal’s ferry disaster.', detail:'مادة مرئية وشهادة مرتبطة بمريم ضيوف والناجين؛ تحقق من شروط إعادة استخدام الصور قبل النشر.', type:'memory', label:'شهادة', url:'https://www.bbc.com/news/av/world-africa-63032421'},
+    {title:'The New York Times (2022). Senegal’s Ferry Disaster Still Haunts Its Survivors.', detail:'تقرير وشهادات عن أوسينو ديجيبا وعثمان كيتا وآثار الكارثة.', type:'memory', label:'شهادة', url:'https://www.nytimes.com/2022/09/25/world/africa/senegal-ferry-joola.html'},
+    {title:'Times of Malta. Survivors mark Africa’s Titanic epic.', detail:'تقرير يتضمن شهادة فيكتور ديجيبا.', type:'memory', label:'شهادة', url:'https://timesofmalta.com/article/Survivors-mark-Africa-s-Titanic-epic.438742'},
+    {title:'RFI (2022). Le naufrage du Joola et ses suites racontés et mis en perspective par la littérature.', detail:'مادة عن كتاب وشهادة باتريس أوفراي.', type:'memory', label:'شهادة', url:'https://www.rfi.fr/fr/afrique/20220926-le-joola-le-naufrage-et-ses-suites-racont%C3%A9s-et-mis-en-perspective-par-la-litt%C3%A9rature'},
+    {title:'AFP / Ahram Online (2022). Senegal ferry disaster: relatives fight for justice.', detail:'تقرير يضم شهادة لياندر كولي.', type:'memory', label:'شهادة', url:'https://english.ahram.org.eg/NewsContent/2/10/476673/World/Africa/Senegal-ferry-disaster-relatives-fight-for-justice.aspx'},
+    {title:'BBC Pidgin. Joola survivor Lamin Coly recalls the disaster.', detail:'شهادة لامين كولي عن النجاة والآثار التي بقيت في ذاكرته.', type:'memory', label:'شهادة', url:'https://www.bbc.com/pidgin/articles/ce5mj886662o'},
+    {title:'Le Quotidien. Cheikh Niang, rescapé du Joola.', detail:'مقابلة مع شيخ نيانغ عن عمله على العبارة وآثار الكارثة.', type:'memory', label:'شهادة', url:'https://lequotidien.sn/cheikh-niang-rescape-je-perds-la-tete-quand-il-y-a-coupure-delectricite/'}
+  ];
+  const refsList = document.getElementById('refsList');
+  const refsSearch = document.getElementById('refsSearch');
+  const refsCount = document.getElementById('refsCount');
+  let activeRefFilter = 'all';
+  if (refsList) {
+    refs.forEach(ref => {
+      const card = document.createElement('details');
+      card.className = 'ref-card';
+      card.dataset.type = ref.type;
+      card.dataset.search = `${ref.title} ${ref.detail} ${ref.label}`.toLocaleLowerCase();
+      const summary = document.createElement('summary');
+      const type = document.createElement('span'); type.className = 'ref-type'; type.textContent = ref.label;
+      const title = document.createElement('span'); title.className = 'ref-title'; title.textContent = ref.title;
+      const arrow = document.createElement('span'); arrow.className = 'ref-chevron'; arrow.textContent = '⌄'; arrow.setAttribute('aria-hidden','true');
+      summary.append(type, title, arrow);
+      const body = document.createElement('div'); body.className = 'ref-detail';
+      const desc = document.createElement('p'); desc.textContent = ref.detail;
+      body.appendChild(desc);
+      if (ref.url) {
+        const link = document.createElement('a'); link.href = ref.url; link.target = '_blank'; link.rel = 'noopener noreferrer'; link.textContent = 'فتح المصدر الأصلي ↗';
+        body.appendChild(link);
+      } else {
+        const unavailable = document.createElement('p'); unavailable.textContent = 'لم يضف رابط مباشر لهذه الإحالة في النسخة الحالية.';
+        body.appendChild(unavailable);
+      }
+      card.append(summary, body);
+      refsList.appendChild(card);
+    });
+    const updateRefs = () => {
+      const query = refsSearch.value.trim().toLocaleLowerCase();
+      let visible = 0;
+      refsList.querySelectorAll('.ref-card').forEach(card => {
+        const categoryMatch = activeRefFilter === 'all' || card.dataset.type === activeRefFilter;
+        const queryMatch = !query || card.dataset.search.includes(query);
+        card.hidden = !(categoryMatch && queryMatch);
+        if (!card.hidden) visible++;
+      });
+      refsCount.textContent = `تظهر ${visible} من ${refs.length} مرجعا`;
+      let empty = refsList.querySelector('.refs-empty');
+      if (!visible && !empty) { empty = document.createElement('div'); empty.className = 'refs-empty'; empty.textContent = 'لا توجد مراجع مطابقة. جرب كلمة أخرى أو اختر «الكل».'; refsList.appendChild(empty); }
+      if (visible && empty) empty.remove();
+    };
+    refsSearch.addEventListener('input', updateRefs);
+    document.querySelectorAll('.ref-filter').forEach(button => button.addEventListener('click', () => {
+      activeRefFilter = button.dataset.filter;
+      document.querySelectorAll('.ref-filter').forEach(item => item.classList.toggle('active', item === button));
+      updateRefs();
+    }));
+    updateRefs();
+  }
+
+</script>
+
+</body>
+</html>
